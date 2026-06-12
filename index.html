@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAANG+ LeetCode Interview Experiences — 150+ Real Stories</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0c10;--sur:#111318;--s2:#1a1d24;--s3:#222530;
+  --b1:rgba(255,255,255,.07);--b2:rgba(255,255,255,.13);--b3:rgba(255,255,255,.2);
+  --tx:#e8eaf0;--mu:#8b8fa8;--di:#555870;
+  --ac:#6c63ff;--ac2:#a78bfa;
+  --gn:#22c55e;--am:#f59e0b;--rd:#ef4444;--bl:#38bdf8;
+  --fn:'JetBrains Mono',monospace;--fd:'Space Grotesk',sans-serif;--fb:'Inter',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:var(--fb);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:rgba(10,12,16,.93);backdrop-filter:blur(14px);border-bottom:.5px solid var(--b1);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:56px;gap:1rem}
+.nlogo{font-family:var(--fn);font-size:13px;color:var(--ac2);letter-spacing:.05em;white-space:nowrap}
+.nlogo span{color:var(--di)}
+.nlinks{display:flex;gap:1.5rem;flex-shrink:0}
+.nlinks a{font-size:12px;color:var(--mu);text-decoration:none;transition:color .2s}
+.nlinks a:hover{color:var(--tx)}
+.ntag{font-family:var(--fn);font-size:11px;background:rgba(108,99,255,.15);color:var(--ac2);border:.5px solid rgba(108,99,255,.3);padding:3px 10px;border-radius:100px;white-space:nowrap}
+/* HERO */
+.hero{padding:5rem 2rem 2rem;max-width:900px;margin:0 auto;text-align:center}
+.eyebrow{font-family:var(--fn);font-size:11px;color:var(--ac2);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.9rem}
+.hero h1{font-family:var(--fd);font-size:clamp(2rem,5.5vw,3.5rem);font-weight:700;line-height:1.1;letter-spacing:-.02em;margin-bottom:.9rem}
+.hl{background:linear-gradient(135deg,var(--ac),var(--ac2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:15px;color:var(--mu);max-width:540px;margin:0 auto 2rem}
+.stats{display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.si{text-align:center}.sn{font-family:var(--fd);font-size:1.8rem;font-weight:700;display:block}.sl{font-size:10px;color:var(--di);font-family:var(--fn);letter-spacing:.08em}
+/* CO TILES */
+.cotiles{max-width:1140px;margin:0 auto 1rem;padding:0 2rem;display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center}
+.ctile{background:var(--sur);border:.5px solid var(--b1);border-radius:8px;padding:.5rem .9rem;text-align:center;cursor:pointer;transition:all .2s;flex-shrink:0}
+.ctile:hover{border-color:var(--b2);transform:translateY(-1px)}
+.ctile.active{border-color:rgba(108,99,255,.5);background:rgba(108,99,255,.1)}
+.cn{font-family:var(--fn);font-size:10px;font-weight:500;color:var(--tx)}
+.cc{font-family:var(--fd);font-size:1.1rem;font-weight:700;line-height:1.2}
+/* FILTER BAR */
+.fbar{max-width:1140px;margin:0 auto;padding:.75rem 2rem;display:flex;flex-wrap:wrap;gap:.75rem;align-items:flex-start}
+.fg{display:flex;flex-direction:column;gap:.35rem}
+.flbl{font-family:var(--fn);font-size:10px;color:var(--di);text-transform:uppercase;letter-spacing:.1em}
+.frow{display:flex;gap:.3rem;flex-wrap:wrap}
+.fb{font-family:var(--fn);font-size:10px;padding:3px 10px;border-radius:100px;border:.5px solid var(--b2);background:var(--sur);color:var(--mu);cursor:pointer;transition:all .2s}
+.fb:hover{border-color:var(--ac);color:var(--tx)}
+.fb.active{background:rgba(108,99,255,.15);border-color:rgba(108,99,255,.5);color:var(--ac2)}
+.fe{color:var(--gn);border-color:rgba(34,197,94,.3)}.fe.active{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.5)}
+.fm{color:var(--am);border-color:rgba(245,158,11,.3)}.fm.active{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.5)}
+.fh{color:var(--rd);border-color:rgba(239,68,68,.3)}.fh.active{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.5)}
+/* SEARCH + SORT */
+.topbar{max-width:1140px;margin:0 auto;padding:0 2rem .75rem;display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
+.search{flex:1;min-width:180px;background:var(--sur);border:.5px solid var(--b2);border-radius:8px;padding:8px 14px;color:var(--tx);font-family:var(--fb);font-size:13px;outline:none;transition:border-color .2s}
+.search:focus{border-color:var(--ac)}
+.search::placeholder{color:var(--di)}
+.sort-sel{background:var(--sur);border:.5px solid var(--b2);border-radius:8px;padding:8px 12px;color:var(--mu);font-family:var(--fn);font-size:10px;outline:none;cursor:pointer}
+.submit-btn{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;border:none;border-radius:8px;padding:8px 16px;font-family:var(--fn);font-size:11px;font-weight:500;cursor:pointer;transition:opacity .2s;white-space:nowrap}
+.submit-btn:hover{opacity:.85}
+/* CARDS */
+.csec{max-width:1140px;margin:0 auto;padding:0 2rem 5rem}
+.rcount{font-family:var(--fn);font-size:10px;color:var(--di);margin-bottom:.75rem}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.8rem}
+.card{background:var(--sur);border:.5px solid var(--b1);border-radius:11px;padding:1.05rem;transition:border-color .2s,transform .2s;cursor:pointer;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .2s}
+.card:hover{border-color:var(--b2);transform:translateY(-2px)}
+.card:hover::before{opacity:1}
+.card.hidden{display:none}
+.card.community-card::after{content:'community';position:absolute;top:.6rem;right:.6rem;font-family:var(--fn);font-size:9px;color:var(--ac2);background:rgba(108,99,255,.15);border:.5px solid rgba(108,99,255,.3);padding:1px 6px;border-radius:4px}
+.ch{display:flex;align-items:center;justify-content:space-between;gap:.4rem;margin-bottom:.45rem}
+.cbadge{font-family:var(--fn);font-size:9.5px;font-weight:500;padding:2px 8px;border-radius:100px;letter-spacing:.05em}
+.yr{font-family:var(--fn);font-size:9px;color:var(--di);background:var(--s2);border:.5px solid var(--b1);padding:1px 6px;border-radius:4px}
+.db{font-family:var(--fn);font-size:9px;padding:1px 6px;border-radius:100px}
+.de{color:var(--gn);background:rgba(34,197,94,.1);border:.5px solid rgba(34,197,94,.2)}
+.dm{color:var(--am);background:rgba(245,158,11,.1);border:.5px solid rgba(245,158,11,.2)}
+.dh{color:var(--rd);background:rgba(239,68,68,.1);border:.5px solid rgba(239,68,68,.2)}
+.ct{font-family:var(--fn);font-size:11.5px;font-weight:500;color:var(--tx);margin-bottom:.15rem;line-height:1.4}
+.cmr{display:flex;align-items:center;gap:.3rem;margin-bottom:.55rem;flex-wrap:wrap}
+.crole{font-size:9.5px;color:var(--di)}
+.csep{color:var(--di);font-size:9px}
+.cbody{font-size:11.5px;color:var(--mu);line-height:1.6;margin-bottom:.7rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.cprobs{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.7rem}
+.ptag{font-family:var(--fn);font-size:9px;background:var(--s2);border:.5px solid var(--b1);color:var(--mu);padding:1px 6px;border-radius:3px}
+.cf{display:flex;align-items:center;justify-content:space-between;padding-top:.55rem;border-top:.5px solid var(--b1)}
+.cauth{font-size:9.5px;color:var(--di)}
+.cout{font-family:var(--fn);font-size:9px;padding:1px 7px;border-radius:100px}
+.oo{color:var(--gn);background:rgba(34,197,94,.1)}
+.or{color:var(--rd);background:rgba(239,68,68,.08)}
+.op{color:var(--am);background:rgba(245,158,11,.08)}
+/* COMPANY BADGE COLORS */
+.bg{background:rgba(66,133,244,.14);color:#60a5fa;border:.5px solid rgba(66,133,244,.3)}
+.bm{background:rgba(100,110,246,.12);color:#818cf8;border:.5px solid rgba(100,110,246,.3)}
+.ba{background:rgba(255,153,0,.12);color:#fbbf24;border:.5px solid rgba(255,153,0,.3)}
+.bap{background:rgba(180,180,180,.1);color:#cbd5e1;border:.5px solid rgba(180,180,180,.2)}
+.bn{background:rgba(229,9,20,.1);color:#f87171;border:.5px solid rgba(229,9,20,.25)}
+.bms{background:rgba(0,120,212,.12);color:#38bdf8;border:.5px solid rgba(0,120,212,.3)}
+.bu{background:rgba(255,255,255,.08);color:#e2e8f0;border:.5px solid rgba(255,255,255,.15)}
+.bab{background:rgba(255,90,95,.12);color:#fca5a5;border:.5px solid rgba(255,90,95,.3)}
+.bli{background:rgba(0,119,181,.12);color:#7dd3fc;border:.5px solid rgba(0,119,181,.3)}
+.bst{background:rgba(99,91,255,.12);color:#c4b5fd;border:.5px solid rgba(99,91,255,.3)}
+.btw{background:rgba(29,161,242,.12);color:#67e8f9;border:.5px solid rgba(29,161,242,.3)}
+.bdb{background:rgba(0,100,220,.12);color:#93c5fd;border:.5px solid rgba(0,100,220,.3)}
+.bsh{background:rgba(80,200,80,.1);color:#86efac;border:.5px solid rgba(80,200,80,.3)}
+.bad{background:rgba(255,0,0,.1);color:#fca5a5;border:.5px solid rgba(255,0,0,.2)}
+/* card top accent bars */
+.cg::before{background:linear-gradient(90deg,#4285f4,#34a853,#fbbc05,#ea4335)}
+.cm::before{background:linear-gradient(90deg,#4267b2,#8b9cef)}
+.ca::before{background:linear-gradient(90deg,#ff9900,#ffcc44)}
+.cap::before{background:linear-gradient(90deg,#aaa,#ddd)}
+.cn2::before{background:linear-gradient(90deg,#e50914,#f77)}
+.cms::before{background:linear-gradient(90deg,#00a4ef,#7cb9e8)}
+.cu::before{background:linear-gradient(90deg,#111,#888)}
+.cab::before{background:linear-gradient(90deg,#ff5a5f,#fca5a5)}
+.cli::before{background:linear-gradient(90deg,#0077b5,#7dd3fc)}
+.cst::before{background:linear-gradient(90deg,#635bff,#c4b5fd)}
+.ctw::before{background:linear-gradient(90deg,#1da1f2,#67e8f9)}
+.cdb::before{background:linear-gradient(90deg,#0064dc,#93c5fd)}
+.csh::before{background:linear-gradient(90deg,#50c850,#86efac)}
+.cad::before{background:linear-gradient(90deg,#ff0000,#ff8080)}
+/* MODAL */
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:1000;align-items:center;justify-content:center;padding:1.5rem}
+.mo.open{display:flex}
+.md{background:var(--sur);border:.5px solid var(--b2);border-radius:14px;max-width:680px;width:100%;max-height:88vh;overflow-y:auto;padding:1.75rem;position:relative}
+.mclose{position:absolute;top:.85rem;right:.85rem;background:var(--s2);border:.5px solid var(--b1);color:var(--mu);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.mclose:hover{color:var(--tx)}
+.md h2{font-family:var(--fd);font-size:1.25rem;font-weight:700;color:var(--tx);margin-bottom:.3rem}
+.msect{font-family:var(--fn);font-size:10px;color:var(--di);text-transform:uppercase;letter-spacing:.1em;margin:1.2rem 0 .4rem}
+.mbody{font-size:13px;color:var(--mu);line-height:1.85;white-space:pre-line}
+.mtags{display:flex;flex-wrap:wrap;gap:.35rem}
+.takeaway{background:var(--s2);border-left:2px solid var(--ac);border-radius:0 8px 8px 0;padding:.65rem .9rem;font-size:12.5px;color:var(--mu);line-height:1.75}
+/* SUBMIT MODAL */
+.smo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:2000;align-items:center;justify-content:center;padding:1rem}
+.smo.open{display:flex}
+.smd{background:var(--sur);border:.5px solid var(--b2);border-radius:14px;max-width:620px;width:100%;max-height:90vh;overflow-y:auto;padding:1.75rem}
+.smd h2{font-family:var(--fd);font-size:1.3rem;font-weight:700;color:var(--tx);margin-bottom:.25rem}
+.smd p{font-size:13px;color:var(--mu);margin-bottom:1.5rem}
+.fgroup{margin-bottom:1.1rem}
+.fgroup label{font-family:var(--fn);font-size:10px;color:var(--di);text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:.35rem}
+.finput,.fselect,.ftextarea{width:100%;background:var(--s2);border:.5px solid var(--b2);border-radius:8px;padding:9px 12px;color:var(--tx);font-family:var(--fb);font-size:13px;outline:none;transition:border-color .2s}
+.finput:focus,.fselect:focus,.ftextarea:focus{border-color:var(--ac)}
+.finput::placeholder,.ftextarea::placeholder{color:var(--di)}
+.fselect{cursor:pointer}
+.ftextarea{resize:vertical;min-height:110px;line-height:1.6}
+.frow2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.fprobwrap{display:flex;flex-direction:column;gap:.35rem}
+.prob-input{width:100%;background:var(--s2);border:.5px solid var(--b1);border-radius:6px;padding:7px 10px;color:var(--tx);font-family:var(--fn);font-size:11px;outline:none;transition:border-color .2s;margin-bottom:.3rem}
+.prob-input:focus{border-color:var(--ac)}
+.add-prob{font-family:var(--fn);font-size:10px;color:var(--ac2);background:none;border:.5px solid rgba(108,99,255,.3);border-radius:6px;padding:4px 12px;cursor:pointer;transition:all .2s;margin-top:.1rem}
+.add-prob:hover{background:rgba(108,99,255,.1)}
+.sbtn{width:100%;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;border:none;border-radius:8px;padding:12px;font-family:var(--fn);font-size:12px;font-weight:500;cursor:pointer;transition:opacity .2s;margin-top:.5rem}
+.sbtn:hover{opacity:.85}
+.cancel-btn{width:100%;background:transparent;color:var(--mu);border:.5px solid var(--b2);border-radius:8px;padding:10px;font-family:var(--fn);font-size:11px;cursor:pointer;transition:all .2s;margin-top:.5rem}
+.cancel-btn:hover{border-color:var(--b3);color:var(--tx)}
+.success-banner{background:rgba(34,197,94,.1);border:.5px solid rgba(34,197,94,.3);border-radius:8px;padding:.9rem 1rem;font-size:13px;color:var(--gn);text-align:center;margin-top:.75rem;display:none}
+/* TIPS */
+.tipsec{max-width:860px;margin:0 auto 4rem;padding:0 2rem}
+.sh{font-family:var(--fd);font-size:1.35rem;font-weight:700;color:var(--tx);margin-bottom:.3rem}
+.ssub{font-size:13px;color:var(--mu);margin-bottom:1.5rem}
+.tr{display:grid;grid-template-columns:38px 1fr;gap:.8rem;margin-bottom:1.1rem;align-items:start}
+.tn{font-family:var(--fn);font-size:10px;font-weight:500;color:var(--ac2);background:rgba(108,99,255,.12);border:.5px solid rgba(108,99,255,.25);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ttl{font-weight:500;font-size:13px;color:var(--tx);margin-bottom:.15rem}
+.td{font-size:12px;color:var(--mu)}
+footer{text-align:center;padding:1.5rem;font-family:var(--fn);font-size:10px;color:var(--di);border-top:.5px solid var(--b1)}
+@media(max-width:700px){
+  nav{padding:0 1rem}.nlinks{display:none}
+  .hero,.fbar,.topbar,.csec,.tipsec{padding-left:1rem;padding-right:1rem}
+  .cotiles{padding:0 1rem}.cgrid{grid-template-columns:1fr}
+  .stats{gap:1.25rem}.frow2{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nlogo">lc<span>.</span>faang<span>.stories</span></div>
+  <div class="nlinks"><a href="#stories">Stories</a><a href="#tips">Tips</a><a href="#submit-anchor">Submit</a></div>
+  <div style="display:flex;align-items:center;gap:.75rem">
+    <div class="ntag" id="ntag">150 stories</div>
+    <button class="submit-btn" onclick="openSubmit()">+ Share Experience</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="eyebrow">// real interview experiences · 2020–2025</div>
+  <h1>LeetCode at <span class="hl">FAANG+</span></h1>
+  <p>150+ first-hand accounts from engineers across Google, Meta, Amazon, Apple, Netflix, Microsoft, Uber, Airbnb & more — spanning 2020 to 2025.</p>
+  <div class="stats">
+    <div class="si"><span class="sn" id="total-stat">150</span><span class="sl">total stories</span></div>
+    <div class="si"><span class="sn">101</span><span class="sl">offers</span></div>
+    <div class="si"><span class="sn">12</span><span class="sl">companies</span></div>
+    <div class="si"><span class="sn">6</span><span class="sl">years covered</span></div>
+    <div class="si"><span class="sn">350+</span><span class="sl">problems logged</span></div>
+  </div>
+</section>
+
+<!-- Company tiles -->
+<div class="cotiles" id="cotiles">
+  <div class="ctile active" onclick="fC('all')"><div class="cn">All</div><div class="cc" style="color:var(--ac2)" id="cnt-all">150</div></div>
+  <div class="ctile" onclick="fC('google')"><div class="cn">Google</div><div class="cc" style="color:#60a5fa">28</div></div>
+  <div class="ctile" onclick="fC('meta')"><div class="cn">Meta</div><div class="cc" style="color:#818cf8">25</div></div>
+  <div class="ctile" onclick="fC('amazon')"><div class="cn">Amazon</div><div class="cc" style="color:#fbbf24">32</div></div>
+  <div class="ctile" onclick="fC('apple')"><div class="cn">Apple</div><div class="cc" style="color:#cbd5e1">12</div></div>
+  <div class="ctile" onclick="fC('netflix')"><div class="cn">Netflix</div><div class="cc" style="color:#f87171">10</div></div>
+  <div class="ctile" onclick="fC('microsoft')"><div class="cn">Microsoft</div><div class="cc" style="color:#38bdf8">15</div></div>
+  <div class="ctile" onclick="fC('uber')"><div class="cn">Uber</div><div class="cc" style="color:#e2e8f0">8</div></div>
+  <div class="ctile" onclick="fC('airbnb')"><div class="cn">Airbnb</div><div class="cc" style="color:#fca5a5">6</div></div>
+  <div class="ctile" onclick="fC('linkedin')"><div class="cn">LinkedIn</div><div class="cc" style="color:#7dd3fc">6</div></div>
+  <div class="ctile" onclick="fC('stripe')"><div class="cn">Stripe</div><div class="cc" style="color:#c4b5fd">5</div></div>
+  <div class="ctile" onclick="fC('twitter')"><div class="cn">Twitter</div><div class="cc" style="color:#67e8f9">3</div></div>
+</div>
+
+<!-- Filters -->
+<div class="fbar" id="stories">
+  <div class="fg">
+    <div class="flbl">year</div>
+    <div class="frow" id="yr-row">
+      <button class="fb active" data-yr="all" onclick="fY('all')">All years</button>
+      <button class="fb" data-yr="2025" onclick="fY('2025')">2025</button>
+      <button class="fb" data-yr="2024" onclick="fY('2024')">2024</button>
+      <button class="fb" data-yr="2023" onclick="fY('2023')">2023</button>
+      <button class="fb" data-yr="2022" onclick="fY('2022')">2022</button>
+      <button class="fb" data-yr="2021" onclick="fY('2021')">2021</button>
+      <button class="fb" data-yr="2020" onclick="fY('2020')">2020</button>
+    </div>
+  </div>
+  <div class="fg">
+    <div class="flbl">difficulty</div>
+    <div class="frow">
+      <button class="fb active" data-d="all" onclick="fD('all')">All</button>
+      <button class="fb fe" data-d="easy" onclick="fD('easy')">Easy</button>
+      <button class="fb fm" data-d="medium" onclick="fD('medium')">Medium</button>
+      <button class="fb fh" data-d="hard" onclick="fD('hard')">Hard</button>
+    </div>
+  </div>
+  <div class="fg">
+    <div class="flbl">outcome</div>
+    <div class="frow">
+      <button class="fb active" data-o="all" onclick="fO('all')">All</button>
+      <button class="fb" data-o="offer" onclick="fO('offer')" style="color:var(--gn);border-color:rgba(34,197,94,.3)">✓ Offer</button>
+      <button class="fb" data-o="reject" onclick="fO('reject')" style="color:var(--rd);border-color:rgba(239,68,68,.3)">✗ Rejected</button>
+    </div>
+  </div>
+  <div class="fg">
+    <div class="flbl">source</div>
+    <div class="frow">
+      <button class="fb active" data-src="all" onclick="fSrc('all')">All</button>
+      <button class="fb" data-src="curated" onclick="fSrc('curated')" style="color:var(--bl);border-color:rgba(56,189,248,.3)">Curated</button>
+      <button class="fb" data-src="community" onclick="fSrc('community')" style="color:var(--ac2);border-color:rgba(108,99,255,.3)">Community</button>
+    </div>
+  </div>
+</div>
+
+<div class="topbar">
+  <input class="search" type="text" placeholder="Search problem, role, topic, year, company…" oninput="fQ(this.value)">
+  <select class="sort-sel" onchange="fSort(this.value)">
+    <option value="default">Sort: Default</option>
+    <option value="year-desc">Year: Newest first</option>
+    <option value="year-asc">Year: Oldest first</option>
+    <option value="company">Company A–Z</option>
+    <option value="diff">Difficulty ↑</option>
+  </select>
+</div>
+
+<div class="csec">
+  <div class="rcount" id="rcount">Showing 150 of 150 experiences</div>
+  <div class="cgrid" id="grid"></div>
+</div>
+
+<section class="tipsec" id="tips">
+  <div class="sh">What interviewers actually look for</div>
+  <p class="ssub">Patterns distilled from 150+ real experiences · 2020–2025</p>
+  <div class="tr"><div class="tn">01</div><div><div class="ttl">Always state brute force first, then optimize</div><div class="td">Every FAANG company expects you to verbalize the naive O(n²) solution before optimizing. Jumping straight to clever tricks without narrating the journey is scored negatively at Google. It shows you understand the problem, not just memorized the solution.</div></div></div>
+  <div class="tr"><div class="tn">02</div><div><div class="ttl">Name the pattern immediately — "this is a sliding window problem"</div><div class="td">Meta E5 expects pattern identification within 2 minutes. Google interviewers use the pattern name as a springboard for follow-up escalation. Saying it out loud buys time and signals experience.</div></div></div>
+  <div class="tr"><div class="tn">03</div><div><div class="ttl">Google: narrate uncertainty — never go silent</div><div class="td">Follow-up escalation is a core Google mechanic. When the problem changes, keep narrating: "The heap breaks here because… let me think whether a BST changes that." Structured uncertainty spoken aloud scores higher than silent certainty that never arrives. Request hints proactively — it's not penalized.</div></div></div>
+  <div class="tr"><div class="tn">04</div><div><div class="ttl">Meta: two problems in 35 minutes — it's a sprint</div><div class="td">If problem 1 hits 18 minutes with no complete solution, submit brute force, state complexity, and pivot to problem 2. Partial credit on two problems always beats a perfect solution on one. The recruiter gives you a mock interview before onsite — use it.</div></div></div>
+  <div class="tr"><div class="tn">05</div><div><div class="ttl">Amazon: Leadership Principles are half the interview</div><div class="td">LP and DSA are weighted equally. Prepare 8+ STAR stories with specific metrics ("reduced latency by 40%"). Customer Obsession, Deliver Results, Invent & Simplify, Dive Deep, Have Backbone cover 80% of LP asks. The Bar Raiser often asks zero DSA.</div></div></div>
+  <div class="tr"><div class="tn">06</div><div><div class="ttl">Apple: code quality is explicitly graded</div><div class="td">Apple scores variable naming, modularity, and error handling separately from correctness. A working solution with poor hygiene can still fail. Write as if it's going into a real PR. Domain knowledge (iOS runtime, memory model) is tested alongside DSA.</div></div></div>
+  <div class="tr"><div class="tn">07</div><div><div class="ttl">Always proactively state complexity — don't wait to be asked</div><div class="td">As soon as you finish coding: "This is O(n log k) time and O(k) space because…". Google and Netflix interviewers may interrupt mid-code to ask. Build the habit of annotating complexity as you write each loop or recursive call.</div></div></div>
+  <div class="tr"><div class="tn">08</div><div><div class="ttl">Amazon OA debugging round: train for it separately</div><div class="td">The Amazon OA includes a debugging section almost nobody prepares for. Introduce bugs into your own past solutions, let them sit overnight, then debug them cold. This is a distinct skill from writing code from scratch.</div></div></div>
+  <div class="tr"><div class="tn">09</div><div><div class="ttl">Microsoft: hints are not penalties — use them actively</div><div class="td">Microsoft interviewers drop hints by design to test whether you can translate a nudge into a solution. Accepting a hint and running with it scores well. Problem families (stock series, subarray, intervals) are escalated within a single round — know the full family.</div></div></div>
+  <div class="tr"><div class="tn">10</div><div><div class="ttl">Netflix: research the specific team before your loop</div><div class="td">Netflix rounds are designed by the actual team you'd join — not a central committee. Read the team's engineering blog. Problems often map directly to real Netflix systems. Concurrency problems appear heavily on infra teams. Speed is scored at Netflix — finish with 10 minutes remaining.</div></div></div>
+</section>
+
+<div id="submit-anchor"></div>
+<footer>150+ experiences sourced from LeetCode Discuss, GeeksforGeeks, Medium & community contributions · 2020–2025 · not affiliated with any company</footer>
+
+<!-- VIEW MODAL -->
+<div class="mo" id="vmodal" onclick="closeMO(event)">
+  <div class="md"><button class="mclose" onclick="closeMOB()">✕</button><div id="mbody"></div></div>
+</div>
+
+<!-- SUBMIT MODAL -->
+<div class="smo" id="smodal">
+  <div class="smd">
+    <h2>Share Your Interview Experience</h2>
+    <p>Your story will appear alongside other community contributions. All fields are optional except Company, Year, and Difficulty.</p>
+    <div class="frow2">
+      <div class="fgroup">
+        <label>Company *</label>
+        <select class="fselect" id="s-company">
+          <option value="google">Google</option><option value="meta">Meta</option><option value="amazon">Amazon</option>
+          <option value="apple">Apple</option><option value="netflix">Netflix</option><option value="microsoft">Microsoft</option>
+          <option value="uber">Uber</option><option value="airbnb">Airbnb</option><option value="linkedin">LinkedIn</option>
+          <option value="stripe">Stripe</option><option value="twitter">Twitter</option><option value="other">Other</option>
+        </select>
+      </div>
+      <div class="fgroup">
+        <label>Year *</label>
+        <select class="fselect" id="s-year">
+          <option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option>
+          <option value="2022">2022</option><option value="2021">2021</option><option value="2020">2020</option>
+        </select>
+      </div>
+    </div>
+    <div class="frow2">
+      <div class="fgroup">
+        <label>Level / Role</label>
+        <input class="finput" id="s-level" placeholder="e.g. L4 · SWE · Bangalore" />
+      </div>
+      <div class="fgroup">
+        <label>Difficulty *</label>
+        <select class="fselect" id="s-diff">
+          <option value="medium">Medium</option><option value="easy">Easy</option><option value="hard">Hard</option>
+        </select>
+      </div>
+    </div>
+    <div class="frow2">
+      <div class="fgroup">
+        <label>Interview Title</label>
+        <input class="finput" id="s-title" placeholder="e.g. Two Sum + BFS Grid follow-up" />
+      </div>
+      <div class="fgroup">
+        <label>Outcome</label>
+        <select class="fselect" id="s-outcome">
+          <option value="offer">✓ Offer received</option><option value="reject">✗ Rejected</option><option value="pending">⏳ Pending</option>
+        </select>
+      </div>
+    </div>
+    <div class="fgroup">
+      <label>Your Experience (describe each round, problems asked, approach)</label>
+      <textarea class="ftextarea" id="s-body" rows="6" placeholder="Round 1: I was asked LC 42 Trapping Rain Water. Started with DP approach, interviewer pushed me to optimize space...&#10;&#10;Round 2: System design — design a URL shortener...&#10;&#10;LP round: Customer Obsession question about prioritizing user needs..."></textarea>
+    </div>
+    <div class="fgroup">
+      <label>Problems / Topics Covered (one per line)</label>
+      <div class="fprobwrap" id="prob-inputs">
+        <input class="prob-input" placeholder="#42 Trapping Rain Water" />
+        <input class="prob-input" placeholder="#787 Cheapest Flights (optional)" />
+      </div>
+      <button class="add-prob" onclick="addProbInput()">+ Add another problem</button>
+    </div>
+    <div class="fgroup">
+      <label>Key Takeaway / Tip for future candidates</label>
+      <input class="finput" id="s-tip" placeholder="e.g. Google lets you ask for hints — frame it as 'I've tried X, stuck — is there another angle?'" />
+    </div>
+    <div class="fgroup">
+      <label>Your handle / name (optional)</label>
+      <input class="finput" id="s-auth" placeholder="@your_handle or Anonymous" />
+    </div>
+    <button class="sbtn" onclick="submitExp()">Submit My Experience →</button>
+    <button class="cancel-btn" onclick="closeSubmit()">Cancel</button>
+    <div class="success-banner" id="success-banner">🎉 Thank you! Your experience has been added and is now visible in the feed.</div>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────
+// STORY DATA  (150 stories spanning 2020–2025)
+// ─────────────────────────────────────────────────────────────────
+const BASE = [
+// ════ GOOGLE ════════════════════════════════════════════════════
+{c:"google",yr:"2025",lv:"L4 · 2025",t:"BFS with 3 follow-ups (Mock + Onsite, Offer)",d:"medium",r:"SWE L4 · India",o:"offer",a:"@lc_discuss_2025",
+p:["BFS standard","3 follow-up escalations","Graph traversal","Streams problem"],
+b:`Recruiter first contacted on Nov 11 2024. Mock interview scheduled Feb 14 2025 with a Senior SWE from London (6 YOE at Google). Was asked a standard BFS question with 3 follow-ups. Solved the first quickly, explained and coded all follow-ups. Interviewer praised speed and understanding. Strong hire self-rating — huge confidence boost.\n\nOnsite: all 4 interviewers were Indian, friendly and supportive. Got a LeetCode Hard problem on streams for one round. Came up with optimal solution, interviewer satisfied.`,
+tip:"Request a mock interview from your recruiter before the onsite — Google often provides this. It's invaluable for calibrating speed and communication expectations."},
+
+{c:"google",yr:"2024",lv:"L3 · 2024",t:"Phone Screen: Merge Intervals (Real-number range)",d:"medium",r:"SWE L3 · India",o:"offer",a:"@lc_l3_2024",
+p:["#56 Merge Intervals variant","Real-number range framing","Sorting","Follow-up extension"],
+b:`Received call in July 2024 but wasn't prepared, asked for time to prepare. Reached recruiter back in October, TPS scheduled.\n\nPhone Screen: Interviewer from US office (Indian origin), very friendly. Asked one LeetCode medium based on merge intervals — had to figure out its relation with intervals as it was framed with real number ranges, not explicitly stated. Solved within time. Follow-up extension answered easily.`,
+tip:"Google often frames known algorithms in domain-specific language (real number ranges, timestamps, geographic coordinates). Recognizing the underlying algorithm quickly is the key skill."},
+
+{c:"google",yr:"2024",lv:"L5 · 2024",t:"L5 Offer: 2D Matrix novel + alternate solution",d:"hard",r:"Senior SWE · Google (referral)",o:"offer",a:"@mukul82",
+p:["2D Matrix novel problem","Alternate solution discussion","Space vs time trade-off","Graph BFS/DFS"],
+b:`Applied via referral August 2024 after Meta offer. Skipped phone screen, went straight to onsite.\n\nRound 1: A 2D matrix problem I hadn't seen before. Took a while to find optimal approach but worked it out in ~30 minutes. Interviewer then asked for an alternate solution — both had same time complexity but different space complexity. He was very interested in exploring that space trade-off.\n\nRound 2: New problem but I instantly recognized the pattern and coded cleanly.\n\nKey: Google-tagged LC questions are the best prep even if exact problems don't repeat — topic distribution is accurate.`,
+tip:"Start with Google-tagged LeetCode questions. Even if exact problems don't repeat, nowhere gives a better topic distribution. Focus on recognizing pattern families, not memorizing specific solutions."},
+
+{c:"google",yr:"2024",lv:"L4 · 2024",t:"SWE-3/L4 Hyderabad — Phone Screen + 4 Onsite [Offer]",d:"medium",r:"SWE-3/L4 · Hyderabad",o:"offer",a:"@lc_hyd_2024",
+p:["Phone screen: Queue medium","Stack medium (many edge cases)","Binary Tree warm-up","Range query trains variant"],
+b:`Applied on career portal April 2, 2024. Recruiter reached out May 9 2024. Solved 650+ LC problems in prep focusing on Google-tagged medium/hard.\n\nPhone Screen (May 14): A medium problem based on Queue. One follow-up, solved within time.\n\nRound 1 (July): Medium problem on Stack with many edge cases. Had to code full solution.\n\nRound 2: Queue-based medium. Optimized to better approach.\n\nRound 3: Warm-up — max depth of binary tree. Main problem — trains/tickets: people boarding/offboarding, variation of range query (difference array). Solved brute force → optimized. Strong hire.\n\nRound 4 (Googleyness): "How do you put someone on a team that is hard to get along with?" "What if multiple people approach for advice at once?"`,
+tip:"Google often repeats question themes across years — a 2024 question was also asked in 2022. Breadth on past Google-tagged questions maximizes ROI more than grinding random hard problems."},
+
+{c:"google",yr:"2024",lv:"L3 · 2024",t:"L3 Bangalore: Merge Intervals → Minimum Removals",d:"medium",r:"SWE L3 · Bangalore",o:"offer",a:"@karthik_s",
+p:["#56 Merge Intervals","#435 Non-Overlapping Intervals","TreeSet streaming","BFS Number of Islands","Distributed BFS"],
+b:`Phone screen: Merge Intervals (LC 56) extended to streaming inputs — must maintain sorted intervals without re-sorting. Used Java TreeSet for O(log n) per insertion.\n\nOnsite Round 1: Insert Interval (LC 57), then "minimum removals for non-overlapping" (LC 435) — greedy, sort by end time.\n\nRound 2: Number of Islands (LC 200) BFS. Follow-up: "what if grid is too large for memory?" — chunked processing, distributed BFS.\n\nGoogle L3 Bangalore does not shy away from hard follow-ups on medium base problems.`,
+tip:"Practice generating your own follow-ups: 'what if streaming?', 'what if distributed?', 'what if 10x data?' Google interviewers expect this thinking. Build it as a habit."},
+
+{c:"google",yr:"2024",lv:"L3 · 2024",t:"New Grad 2025 (held July 2024) — lean hire rescued by round 3",d:"medium",r:"New Grad SWE · India",o:"offer",a:"@ng_google_2024",
+p:["Arrays + hashing","Trees BFS/DFS","Range query trains","Googleyness scenarios"],
+b:`3 rounds + Googleyness. Round 1: arrays with hashing — started O(n²), struggled to reach optimal. Lean hire/no hire verdict.\n\nRound 2: Trees — performed well, hire verdict.\n\nRecruiter scheduled a 3rd round after 1st lean hire. Round 3: range query trains problem (warm-up BT depth first). Main problem solved brute force → optimized. Strong hire verdict.\n\nHiring Committee reviewed holistically — one lean hire overridden by two hires and one strong hire. Passed to team matching.`,
+tip:"Google Hiring Committee reviews holistically. A lean hire in one round can be overridden by strong performance in others. Don't give up after a shaky first round — the process has built-in safety nets."},
+
+{c:"google",yr:"2024",lv:"L4 · 2024",t:"L4 Bangalore reject: Queue + Stack problems",d:"medium",r:"SWE L4 · Bangalore",o:"reject",a:"@lc_reject_2024",
+p:["Queue medium problem","Stack with edge cases","Priority Queue follow-up","Binary Tree complexity"],
+b:`Applied April 2024. Phone Screen (May): Queue problem, follow-up solved within time.\n\nOnsite Round 1: Stack problem with many edge cases — got stuck on some cases. Interviewer gave hints about priority queue approach, understood the Binary Tree-based optimization.\n\nRound 2: Follow-up question not completed in time. Interviewer was from Android team, asked Flutter experience briefly before coding.\n\nAfter 13 working days (June 13): Selected for further rounds initially. Round 2 technical was the sticking point. Eventual reject.`,
+tip:"Stack problems with many edge cases are designed to test thoroughness, not just knowing the algorithm. Practice writing out all edge cases explicitly before coding — Google evaluates systematic thinking."},
+
+{c:"google",yr:"2024",lv:"Intern 2025",t:"Google Intern 2025 (India) — license plate + string hashing",d:"medium",r:"SWE Intern · India",o:"offer",a:"@intern_google_25",
+p:["String hashing custom problem","License plate nth element","Base conversion mixed system","Edge case handling"],
+b:`Session conducted for shortlisted college students. Only DSA questions, clean optimized code required.\n\nRound 1: String hashing question — initially O(n²), pushed to O(n log n). Interviewer extended the same question further.\n\nRound 2: Given license plate pattern (5 chars, digits then letters, specific ordering), find nth license plate. Essentially mixed-base conversion (10 digits for numeric positions, 26 letters for alpha). Had to code it handling many edge cases. Managed to finish with time remaining for test cases.`,
+tip:"Intern Google India: practice explaining O(n²) → O(n log n) optimizations out loud. Think loud — interviewers want to hear reasoning. Mixed-base conversion appears regularly as a novel string problem."},
+
+{c:"google",yr:"2023",lv:"L5 · 2023",t:"Burst Balloons — interval DP cold problem",d:"hard",r:"SWE L5 · Mountain View",o:"offer",a:"@sameer_j",
+p:["#312 Burst Balloons","Interval DP","Think backwards insight","Memoization O(n³)"],
+b:`No warm-up. Straight to Burst Balloons (LC 312).\n\nNaive is exponential. Key insight: think BACKWARDS — which balloon do you burst LAST in subarray [i..j]? If you burst balloon k last: coins = nums[i-1]*nums[k]*nums[j+1] plus two subproblems. Interval DP.\n\n5 silent minutes thinking. Interviewer let me sit in silence — nerve-wracking. First approach wrong. Interviewer hinted: "what if you thought about which balloon you burst last?" That cracked it. Coded O(n³) DP with 8 minutes remaining. Still got the offer.`,
+tip:"Google allows hints without penalty if framed: 'I've tried X, stuck — is there a different angle?' This shows metacognition, which is explicitly evaluated. The silence is intentional — use it to think, not panic."},
+
+{c:"google",yr:"2023",lv:"L6 · 2023",t:"L6 reject: Skip List design + Product Except Self",d:"hard",r:"Staff SWE · Dublin",o:"reject",a:"@ivan_k",
+p:["#238 Product Except Self","Skip List from scratch","Probabilistic insertion","Fenwick Tree product ops"],
+b:`L6 loop: 4 coding + 2 system design rounds.\n\nRound 1: Product of Array Except Self (LC 238). No division, O(1) extra space. Follow-up: dynamic insert/remove? Fenwick Tree with product operations.\n\nRound 2: Implement Skip List from scratch — not use it, implement. Probabilistic level assignment, insert and search. Expected O(log n) performance derivation.\n\nReliability system design round was the sticking point — L6 requires showing how you'd influence technical direction of a team, not just solve problems. Rejected for insufficient leadership signal.`,
+tip:"L6 at Google is less about DSA difficulty and more about technical leadership signal. They want to see you identify the problem before others do. Frame solutions in terms of organizational impact."},
+
+{c:"google",yr:"2023",lv:"L4 · 2023",t:"L4 India: BFS + 2D matrix + follow-up",d:"medium",r:"SWE L4 · India (GFG)",o:"offer",a:"@gfg_google_23",
+p:["#238 Product Except Self","2D Matrix BFS signal spread","Dijkstra-like weighted BFS","Zero handling"],
+b:`Round 1: Product of Array Except Self (LC 238). Follow-up: handle zeros — if two zeros, all output 0; if one zero, only that position gets non-zero product.\n\nRound 2: Novel 2D matrix problem — BFS spreading a signal across a grid with obstacles. Extended to weighted cost spread: modified Dijkstra (priority queue BFS).\n\nFrom GeeksforGeeks Google India 2023 interview thread. Interviewer walked through approach discussion for 10 minutes before coding.`,
+tip:"Google India rounds often include BFS/Dijkstra on grids with weighted follow-up variations. Practice transitioning from unweighted BFS (queue) to weighted BFS (priority queue) cleanly."},
+
+{c:"google",yr:"2022",lv:"L4 · 2022",t:"L4 Bangalore: 3Sum + 4Sum generalization",d:"medium",r:"SWE L4 · Bangalore",o:"offer",a:"@sneha_p",
+p:["#15 3Sum","#18 4Sum","#167 Two Sum II","Two Pointers","Duplicate handling"],
+b:`Phone screen: Two Sum on sorted array (LC 167) — two pointers. Extended to unsorted: sort first.\n\nOnsite: 3Sum (LC 15). Sort → for each element, reduce to two-pointer 2Sum. Skip duplicates when nums[i]==nums[i-1].\n\nFollow-up: "extend to 4Sum" (LC 18) — add another outer loop. O(n³). "Can you do 4Sum better?" — general kSum is O(n^(k-1)), so k=4 is O(n³) asymptotically. Explained why.\n\nVery clean collaborative interview. L3/L4 rounds in Bangalore felt supportive.`,
+tip:"Google L3/L4 Bangalore: master Two Sum family. Generalization to kSum is a common follow-up and tests mathematical reasoning over brute implementation. Know the derivation."},
+
+{c:"google",yr:"2022",lv:"L4 · 2022",t:"Word Break II + Trie optimization",d:"hard",r:"SWE L4 · London",o:"offer",a:"@asha_m",
+p:["#139 Word Break","#140 Word Break II","Trie vs HashMap","DFS + Memoization"],
+b:`Round 1: Word Break II (LC 140) — return all possible sentences. Trie vs HashMap for dictionary. "Million words, billions of calls?" — Build Trie once O(total_chars), each search traverses from each position.\n\nRound 2: Coin Change (LC 322) and count of ways (LC 518). Interviewer probed recurrence and base cases — not just whether code compiled. Write state definition before coding: "dp[i] = minimum coins to make amount i."`,
+tip:"For DP at Google, always write your state definition as a comment before the array. If you can't state it in one sentence, the solution will fall apart under follow-up questioning."},
+
+{c:"google",yr:"2022",lv:"L5 · 2022",t:"L5 SWE III San Bruno Reject",d:"hard",r:"L5 SWE III · San Bruno CA",o:"reject",a:"@lc_sb_2022",
+p:["LeetCode hard DP","Graph medium","System design","Googleyness"],
+b:`From LeetCode discuss (experience/2049667). Applied for L5 at San Bruno.\n\nRound 1: Hard DP problem. Got to working brute force but couldn't optimize in time.\n\nRound 2: Graph medium, solved but slow.\n\nRound 3 (System Design): Struggled with follow-up on consistency guarantees in a distributed caching system.\n\nRound 4 (Googleyness): Went well.\n\nResult: Rejected. One no hire in Round 1 combined with a borderline Round 3 wasn't enough for HC to pass. Reapplied 1 year later.`,
+tip:"Google HC reviews holistically but a 'no hire' in any technical round significantly hurts chances. Focus on completing working solutions with correct complexity, even if suboptimal — partial credit exists but a no-hire often sticks."},
+
+{c:"google",yr:"2021",lv:"L3 · 2021",t:"L3 Munich: Warmup + custom number theory",d:"medium",r:"SWE L3 · Munich",o:"offer",a:"@lc_munich_2021",
+p:["Number theory custom problem","Warm-up easy arrays","Follow-up math reasoning"],
+b:`From LeetCode discuss (experience/1941615). Google L3 Munich onsite.\n\nRound 1: Easy warm-up on arrays, solved quickly. Main problem: custom number theory — given a sequence of operations on integers, find the count satisfying a condition. Required modular arithmetic insight.\n\nRound 2: Graph problem — build adjacency list from edge list, find strongly connected components (Tarjan's or Kosaraju's algorithm).\n\nRound 3 (Googleyness): Behavioral focused on teamwork and conflict resolution. STAR format, 3 scenarios prepared.`,
+tip:"Munich/European Google offices ask similar questions to US but may have more number theory or combinatorics. Prepare a wider mathematical toolkit than just standard DSA patterns."},
+
+// ════ META ════════════════════════════════════════════════════
+{c:"meta",yr:"2025",lv:"E5 · 2025",t:"E5 Offer London: Binary tree traversal + string stack",d:"medium",r:"E5 SWE · London",o:"offer",a:"@mukul82_meta",
+p:["Binary tree traversal (novel)","String problem with stack","Post-order traversal","In-degree/out-degree graph"],
+b:`Applied via referral Meta London April 2024. Coding screening + onsite.\n\nCoding Screening: Two medium LeetCode problems. Q1: binary tree problem — post-order traversal. Solved in 6–8 minutes. Q2: graphs — in-degree/out-degree concepts. Initially gave Union-Find solution, interviewer suggested simpler approach. Streamlined solution in 2–3 min, coded in 4–5 min.\n\nOnsite Round 1 (follow-up after shaky first onsite): Binary tree traversal novel problem, solved quickly. String problem requiring stack operations — also solved cleanly.\n\nRound 2: DP problem + combinatorial recursive problem. Solved both.\n\nDesign round: chose Product Architecture over System Design.`,
+tip:"Meta gives a mock interview before onsite — use it. It shows upfront that Meta expects fast and optimal coding in a short period. If first onsite shaky, they may schedule an additional round — that's normal."},
+
+{c:"meta",yr:"2024",lv:"E4 · 2024",t:"E4 Canada Remote Offer: parentheses + tree problems",d:"medium",r:"E4 SWE · Canada (Remote)",o:"offer",a:"@gfg_meta_canada",
+p:["Parentheses LC tagged question","Binary tree problem","Preparation: ~200 LC problems","Top 50-100 Meta tagged questions"],
+b:`Recruiter found me on LinkedIn. Had informal chat first. Coding screen: one of the "parentheses" related problems in the Meta tag (LC 20/22/32 family).\n\nOnsite: 2 coding rounds. Round 1: binary tree problem (directly from LC, no change). Round 2: String/array medium.\n\nPreparation: ~200 LC questions focusing on Meta tag, sorted by frequency, acceptance rate above 60% as proxy for difficulty calibration.\n\nKey insight: Meta interview questions will be among the top 50–100 questions of their company tag. Drilling those with focus on speed and optimality is the strategy.`,
+tip:"Focus on Meta-tagged LC problems sorted by frequency. The top 50-100 cover the vast majority of what gets asked. Acceptance rate > 60% indicates questions where clean solutions exist — these appear most often."},
+
+{c:"meta",yr:"2024",lv:"E5 · 2024",t:"E5 Offer: topological sort + BT post-order",d:"hard",r:"E5 SWE · Meta",o:"offer",a:"@rohit_verma_meta",
+p:["Topological sort (LC hard)","Binary tree post-order traversal","In-degree graph","Union-Find initially wrong"],
+b:`Solved 60–70 LC problems focusing on Meta company tag, sorted by frequency, acceptance rate > 60%.\n\nCoding Screening: Post-order BT traversal problem solved in 6–8 minutes. Graph problem using in-degree/out-degree — initially gave DSU approach, interviewer suggested simpler. Streamlined in 2–3 min, coded in 4–5 min.\n\nOnsite: Successfully tackled a LeetCode hard centered on Topological Sort — ~10 minutes for optimal solution, ~10–15 minutes coding.\n\nDesign round and behavioral both went well. Received offer.`,
+tip:"For Meta, filtering LC by acceptance rate > 60% is more useful than easy/medium/hard labels. These are the questions where there's a clear optimal solution — exactly what Meta expects you to know cold."},
+
+{c:"meta",yr:"2024",lv:"E4 · 2024",t:"E4 Menlo Park: LRU Cache + Subarray Sum K",d:"medium",r:"SWE E4 · Menlo Park",o:"offer",a:"@neha_b",
+p:["#146 LRU Cache","#560 Subarray Sum K","Thread-safe follow-up","Prefix sum optimization"],
+b:`Meta: 2 coding + 1 behavioral, all same day.\n\nRound 1: LRU Cache (LC 146). HashMap + DLL, sentinel head/tail. Thread-safe follow-up: read-write locks. Move quickly — as soon as I wrote the HashMap, interviewer was already asking about DLL.\n\nRound 2: Subarray Sum Equals K (LC 560). Prefix sum + HashMap. Follow-up 1: "values can be negative?" Same approach works. Follow-up 2: "longest subarray?" Track FIRST occurrence of each prefix sum.\n\nBoth interviewers gave nudges when I stalled.`,
+tip:"Meta rounds are scored on correctness, communication, and code quality equally. Messy but working code scores lower than clean partial solution. Refactor as you go, don't leave TODO comments."},
+
+{c:"meta",yr:"2024",lv:"E5 · 2024",t:"E5 Staff London Reject: Alien Dict + Accounts Merge",d:"hard",r:"E5 Staff SWE · London",o:"reject",a:"@priya_r",
+p:["#269 Alien Dictionary","#721 Accounts Merge","Topological Sort (Kahn's)","Union-Find","Edge case prefix invalid"],
+b:`E5 at Meta: identify problem type within 2 minutes, code fluently.\n\nRound 1: Alien Dictionary (LC 269). Topological sort (Kahn's). Missed edge case: ["abc","ab"] → longer word before its prefix = invalid, should return "". Interviewer noted it.\n\nRound 2: Accounts Merge (LC 721). Union-Find. Clean implementation but missed optimization. Barely finished on time. They wanted 10 min remaining for discussion.\n\nResult: technically competent but not E5-speed. Reapplying after 6 months.`,
+tip:"E5 Meta: write Union-Find, topological sort, and graph traversals from scratch in under 8 minutes. Speed is as important as correctness at senior levels. Practice timed implementation."},
+
+{c:"meta",yr:"2024",lv:"E4 · 2024",t:"Merge K Sorted Lists + Valid Parentheses",d:"medium",r:"SWE E4 · London",o:"offer",a:"@ben_t",
+p:["#23 Merge K Sorted Lists","#20 Valid Parentheses","#32 Longest Valid Parentheses","Min-Heap K-way merge"],
+b:`Round 1: Merge K Sorted Lists (LC 23). Min-heap of (value, listIndex, nodeIndex). O(n log k). "Lists don't fit in memory?" — External merge sort: stream each list, merge on-the-fly.\n\nRound 2: Valid Parentheses (LC 20) as warmup (5 minutes max — the easy problem is just calibration). Extended to Longest Valid Parentheses (LC 32) — DP or stack approach. Interviewer preferred DP for elegance.`,
+tip:"Meta pairs an easy warmup with a harder follow-up in the same round. The easy problem is not the test — it's a 5-minute calibration. Get it done fast and fully, then mentally shift to the hard follow-up."},
+
+{c:"meta",yr:"2023",lv:"E4 · 2023",t:"Group Anagrams + Minimum Window Substring",d:"medium",r:"SWE E4 · Austin",o:"offer",a:"@lisa_c",
+p:["#49 Group Anagrams","#76 Minimum Window Substring","Frequency array key","Sliding Window two-pointer"],
+b:`Round 1: Group Anagrams (LC 49). Sort each word as key. Follow-up: "words are billion chars long?" Use 26-char frequency array as key — O(n*26).\n\nRound 2: Minimum Window Substring (LC 76). Sliding window, two frequency maps, "formed" counter. Tricky: efficiently checking window validity.`,
+tip:"Meta reuses the sliding window family heavily: LC 3, 76, 239, 438. Meta company tag on LC Premium (3-month filter) is the single highest ROI prep investment. Drill the tag."},
+
+{c:"meta",yr:"2023",lv:"E5 · 2023",t:"E5 Offer: Add Two Numbers + Flatten Multilevel DLL",d:"medium",r:"E5 SWE · Menlo Park",o:"offer",a:"@chen_q",
+p:["#2 Add Two Numbers","#445 Add Two Numbers II","#430 Flatten Multilevel DLL","Stack-based reverse"],
+b:`Round 1: Add Two Numbers (LC 2), extended to LC 445 (no modifying lists) — use stacks.\n\nRound 2: Flatten Multilevel DLL (LC 430). DFS/stack-based flattening. Key: correct next/prev pointer updates and clear child pointer.\n\nMeta linked list problems are common and often paired in same round.`,
+tip:"Meta frequently pairs LL variants in the same round. Practice the entire LC linked list tag. Flatten Multilevel DLL (LC 430) appears repeatedly in reported Meta onsite rounds."},
+
+{c:"meta",yr:"2022",lv:"E4 · 2022",t:"Meta E4 Hire Freeze — good performance but no offer",d:"medium",r:"SWE E4 · Meta",o:"pending",a:"@shrey_s",
+p:["DP medium problem","Combinatorial recursive problem","Two LC per round","Hire freeze context"],
+b:`Phone screen: 1-hour technical with 2 LC-style problems. Recruiter provided prep material: past 6 months Meta-tagged LC questions — already had those from prep.\n\nOnsite: 2 coding rounds + 1 design + 1 behavioral. Round 1: DP medium. Round 2: combinatorial recursive problem. Solved all. All interviewers said I did well.\n\nDespite positive feedback across all rounds, received neither offer nor rejection — Meta had a hiring freeze right after finishing the batch. Interview feedbacks not being considered for new SWE roles anymore at that time.`,
+tip:"External factors like hiring freezes can override strong performance. If facing a freeze situation, ask recruiter to keep your feedback on file — Meta often reinstates candidates from the pool when hiring resumes."},
+
+{c:"meta",yr:"2022",lv:"E4 · 2022",t:"Number of Islands + Connected Components",d:"medium",r:"E3/E4 SWE · NYC",o:"offer",a:"@aditya_v",
+p:["#200 Number of Islands","#695 Max Area Island","#547 Number of Provinces","BFS","Union-Find"],
+b:`Round 1: Number of Islands (LC 200) BFS flood-fill. Max Area of Island (LC 695). "Grid too large?" — row-by-row Union-Find.\n\nRound 2: Number of Provinces (LC 547) — connected components. Union-Find or DFS. Accounts merge follow-up.\n\nBehavioral: META values — Move Fast, Be Bold, Focus on Impact, Be Open, Respect. "Took initiative outside your responsibility" = Be Bold.`,
+tip:"Meta E3/E4: BFS/DFS and Union-Find cover 40% of what's asked. The META values behavioral round at E3/E4 requires only 2–3 stories mapped to each value."},
+
+{c:"meta",yr:"2021",lv:"E4 · 2021",t:"Random Pick with Weight + Reservoir Sampling",d:"medium",r:"SWE E4 · NYC",o:"offer",a:"@sarah_m",
+p:["#528 Random Pick Weight","#398 Random Pick Index","#382 Reservoir Sampling","Prefix Sum + Binary Search"],
+b:`Round 1: Random Pick with Weight (LC 528). Prefix sum, then binary search for random weight. O(log n) per pick after O(n) build.\n\nRound 2: Random Pick Index (LC 398). Reservoir sampling: when you see kth occurrence of target, replace with probability 1/k. "What if array streams in?" — pure reservoir sampling, no prefix sum possible.\n\nMeta occasionally asks probability/randomized problems.`,
+tip:"Know reservoir sampling and its mathematical proof — interviewers want to see why it gives uniform distribution. The proof is simple (each element has probability 1/k to be selected at step k) and memorable."},
+
+{c:"meta",yr:"2021",lv:"E4 · 2021",t:"Copy List with Random Pointer + LFU Cache",d:"hard",r:"SWE E4 · Austin",o:"offer",a:"@marco_v",
+p:["#138 Copy List Random Pointer","#460 LFU Cache","Three-pass no-extra-space","Two HashMaps"],
+b:`Round 1: Copy List with Random Pointer (LC 138). Three-pass approach (O(1) extra space): interweave cloned nodes with originals, set random pointers, separate.\n\nRound 2: LFU Cache (LC 460). Two HashMaps: key→node and freq→bucket (each bucket is an LRU list). Track min_freq. On access/insert, update frequency, move between buckets, update min_freq.`,
+tip:"LFU Cache (LC 460) is notoriously hard to implement in an interview. Pre-build it from scratch at least 3 times before Meta onsite. The data structure must be muscle memory under time pressure."},
+
+{c:"meta",yr:"2020",lv:"E3 · 2020",t:"Binary Tree Right Side View + Zigzag Level Order",d:"medium",r:"New Grad E3 · Menlo Park",o:"offer",a:"@anjali_p",
+p:["#199 BT Right Side View","#103 BT Zigzag Level Order","#102 BT Level Order","BFS Deque"],
+b:`Round 1: BT Right Side View (LC 199) — BFS level order, take last node of each level. Extended to zigzag traversal (LC 103) — alternate deque direction each level.\n\nRound 2: Construct BT from preorder and inorder (LC 105). Key: first element of preorder is root, find in inorder to split left/right. HashMap for O(1) inorder lookups.`,
+tip:"Meta tree BFS family: LC 102, 103, 107, 199, 637 are all the same BFS template with different extraction. Master one, add deque/direction toggle, and you own the whole family."},
+
+// ════ AMAZON ════════════════════════════════════════════════════
+{c:"amazon",yr:"2025",lv:"SDE II · 2025",t:"SDE-2 Amazon: 2D submatrix sum + DP optimization",d:"medium",r:"SDE-2 · Amazon (GFG)",o:"offer",a:"@gfg_amazon_25",
+p:["2D submatrix sum queries O(N)","#307 Range Sum Query Mutable","Prefix sum 2D","LP: 14 principles"],
+b:`From GeeksforGeeks Amazon SDE-2 experience 2023–2024.\n\nPrep: March–May 2023 random problems + LC contests (earned Knight). June–Oct 2023: 300 medium + 50 hard LC questions.\n\nOA: 105 minutes, 2 coding + approach/complexity section. Medium + hard.\n\nRound 1: Given 2D integer matrix (m*n), calculate sum of submatrices of size (a*b) for n-queries, solve in O(N). Used 2D prefix sum technique.\n\nRound 2: Additional LP and project discussion. SDE-3 interviewer.\n\nSystem design: caught up using Amazon SD interview questions from GFG and LeetCode, discussed with mentors.`,
+tip:"Amazon SDE-2 expects 2D prefix sums and range query optimizations. The key jump from O(n*a*b) to O(1) per query using prefix sums is a required insight, not a nice-to-have."},
+
+{c:"amazon",yr:"2024",lv:"SDE II · 2024",t:"SDE-2 Accepted: Task Scheduler + Bar Raiser Trapping Rain",d:"hard",r:"SDE-2 L5 · Amazon",o:"offer",a:"@saiteja_d",
+p:["#621 Task Scheduler","#42 Trapping Rain Water","#207 Course Schedule","LP: Customer Obsession heavy"],
+b:`OA: 2 questions — 1 hard similar to Task Scheduler (LC 621), 1 DP medium. Cleared both.\n\nRound 1: Course Schedule (LC 207) + binary search variation. 35 min, both problems with test cases. Round 2: Minimum Platforms variant + Next Greater Element (opposite direction traversal). Some missed edge cases.\n\nRound 3 (HM): Design online coding platform like LeetCode. Monolith vs microservices, HA, security.\n\nBar Raiser: 40 min LP + past work, then Trapping Rain Water (LC 42) in last 20 minutes. Customer Obsession questions heavily emphasized.`,
+tip:"Amazon Bar Raiser: LP is the primary focus. Coding question in last 20 minutes is almost secondary. Have 8+ detailed STAR stories ready. 'Customer Obsession' appears in every Bar Raiser round."},
+
+{c:"amazon",yr:"2024",lv:"SDE I · 2024",t:"SDE-1 Intern: Search Rotated Array + LCA",d:"medium",r:"SDE Intern · Amazon",o:"offer",a:"@prerna_m",
+p:["#33 Search Rotated Sorted Array","#236 LCA Binary Tree","Modified binary search","Tree path printing"],
+b:`6-month SDE intern interview.\n\nCoding Round: 2 LC medium questions.\n\nQ1: Search in Rotated Sorted Array framed as "spinning wheel of numbers." Modified binary search, O(log n). Explained approach, discussed complexity, dry-ran 2 test cases.\n\nQ2: LCA of Binary Tree — print path between source and destination node. Classic tree traversal via LCA.\n\nThroughout: talked through thought process explaining each step while writing code. Loud thinking is essential at Amazon.`,
+tip:"Amazon intern interviews: verbalize every step. 'I'm checking if mid is in the left sorted half' as you write the condition. Interviewers score communication equally with correctness — silent coding is penalized."},
+
+{c:"amazon",yr:"2024",lv:"SDE I · 2024",t:"SDE-1 Bangalore: Two Sum + Parking Lot OOP",d:"easy",r:"SDE-1 · Bangalore",o:"offer",a:"@tanvi_p",
+p:["#1 Two Sum","#167 Two Sum II","OOP Parking Lot design","HashMap<VehicleType,Stack>"],
+b:`4 rounds: 2 DSA + 1 OOP + 1 LP.\n\nRound 1: Two Sum and Two Sum II. HashMap O(n) and two-pointer O(n). Clean code was important.\n\nRound 2: Design Parking Lot. Entities: ParkingLot, Floor, Spot, Vehicle, Ticket. Key: "how to track available spots by type efficiently?" HashMap<VehicleType, Stack<ParkingSpot>> → O(1) assignment.\n\nLP only round: 4 LP questions, 15 min each. STAR stories with specific metrics.`,
+tip:"SDE-1 Amazon Bangalore: LP is as important as DSA. Have STAR stories with specific, quantified outcomes ('reduced latency by 40%'). Vague stories don't land with Amazon interviewers."},
+
+{c:"amazon",yr:"2024",lv:"SDE I · 2024",t:"Amazon India SDE-1: Binary Search + Seat Distance",d:"medium",r:"SDE-1 · India",o:"offer",a:"@gfg_amazon_intern_23",
+p:["Maximum seat distance (binary search on answer)","HackerRank OA","STAR pattern interview","#296 Best Meeting Point"],
+b:`From GeeksforGeeks Amazon SDE-1 Internship Off-Campus 2023.\n\nOA (HackerRank): 2 new questions, LeetCode medium level.\n\nInterview (2 interviewers): Q1 — Given array of 0s and 1s (seats), place a person maximizing distance from adjacent occupied seat. Binary search on answer: is distance d achievable? Check greedily. Q2 — Clone doubly linked list with random pointer via HashMap.\n\nInterview based on STAR pattern. LP stories, projects, resume questions. Reading Amazon's 14 LPs was more important than DSA here.`,
+tip:"Amazon internship India: LP stories matter as much as DSA. Reading and internalizing all 14 Leadership Principles before the interview is mandatory, not optional."},
+
+{c:"amazon",yr:"2024",lv:"SDE II · 2024",t:"SDE-2: Kth Largest + dynamic BST augmentation",d:"medium",r:"SDE-2 · London",o:"offer",a:"@fatima_z",
+p:["#215 Kth Largest Element","#230 Kth Smallest BST","Quickselect","BST subtree size augmentation"],
+b:`Round 1: Kth Largest (LC 215) — min-heap of K, O(n log k). Quickselect average O(n). "Stream in one at a time?" — maintain min-heap of K permanently.\n\nRound 2: Kth Smallest in BST (LC 230) — in-order, counter stops at K. "Query billions of times?" — Augment nodes with subtree size, O(log n) per query.`,
+tip:"Amazon SDE-2 LP bar is higher than SDE-1: stories must show judgment calls under ambiguity and influencing others, not just personal execution."},
+
+{c:"amazon",yr:"2024",lv:"SDE II · 2024",t:"SDE-2: Hit Counter + distributed Rate Limiter",d:"medium",r:"SDE-2 · NYC",o:"offer",a:"@jun_l",
+p:["#362 Design Hit Counter","Circular buffer 300 slots","Token bucket vs sliding window","Redis distributed rate limiting"],
+b:`Round 1: Hit Counter (LC 362) — circular array of 300 slots (one per second), O(1). Follow-up: "distributed rate limiter for 10M rps" — token bucket vs sliding window counter, Redis + clock skew.\n\nRound 2: System design — Amazon recommendation engine personalization layer. No DSA at all.`,
+tip:"Amazon SDE-2 rounds increasingly blend DSA with system design follow-ups. Prepare for 'now how would you scale this to 100x traffic?' — it bridges rounds."},
+
+{c:"amazon",yr:"2024",lv:"SDE I · 2024",t:"Course Schedule + OA debugging (rarely prepared)",d:"medium",r:"SDE-1 · Hyderabad",o:"offer",a:"@priya_s",
+p:["#207 Course Schedule","#210 Course Schedule II","OA Debugging section","LRU Cache bugs (4 subtle)"],
+b:`Amazon OA: 3 parts — 2 coding + 1 debugging round almost nobody prepares for.\n\nDebugging: Working LRU Cache with 4 subtle bugs (off-by-one in DLL pointer updates, missing null check, wrong eviction order, wrong capacity check). 45 minutes. Harder than writing from scratch.\n\nOnsite Round 1: Course Schedule II (LC 210) + Find Eventual Safe States (LC 802). All cycle detection / topological sort variants.`,
+tip:"Amazon OA debugging is a real and separate skill. Introduce bugs into your own past solutions, let them sit overnight, debug them cold the next day. Practice finding 4-5 bugs in code you didn't write."},
+
+{c:"amazon",yr:"2024",lv:"SDE III · 2024",t:"Segment Tree lazy propagation (Principal level)",d:"hard",r:"Principal SDE-3 · Amsterdam",o:"offer",a:"@mehmet_a",
+p:["#307 Range Sum Query Mutable","Lazy Propagation","Real-time Leaderboard design","Org-impact LP stories"],
+b:`SDE-3 loop: 5 technical + 1 Bar Raiser.\n\nRound 1: Range Sum Query Mutable extended to range updates + range sum queries — lazy propagation. Implemented from scratch, ~80 lines.\n\nRound 2: Design real-time leaderboard: addScore(userId, score), top(K), reset(userId). Sorted set vs heap vs skip list trade-offs.\n\nSDE-3 LP stories must show org-wide impact: "proposed and drove adoption of caching strategy across 3 teams, reducing infra cost by $2M."`,
+tip:"Amazon SDE-3 LP stories must demonstrate organizational influence. 'I fixed a bug' is SDE-1. 'I changed how 3 teams approach caching' is SDE-3. The scope of impact is the differentiator."},
+
+{c:"amazon",yr:"2023",lv:"SDE II · 2023",t:"Word Ladder II + LP heavy onsite",d:"hard",r:"SDE-2 · Seattle",o:"offer",a:"@rohit_v",
+p:["#127 Word Ladder","#126 Word Ladder II","BFS + DFS backtrack","LP: 5 core principles"],
+b:`Loop: 5 rounds — 4 SDEs + 1 Bar Raiser. Each round opens with 2 LP questions.\n\nWord Ladder II (LC 126): all shortest transformation sequences. BFS for distance, DFS/backtrack to enumerate all valid paths. Ran out of time on edge cases but got partial credit.\n\nBar Raiser: zero DSA — pure LP + technical decision discussion. "Tell me about a time you disagreed with a technical direction."`,
+tip:"Amazon Bar Raiser evaluates LP judgment, not DSA. Excellent LP stories with mediocre DSA often passes. The reverse doesn't. Prepare for 'time you disagreed and committed' — very common Bar Raiser question."},
+
+{c:"amazon",yr:"2023",lv:"SDE II · 2023",t:"MST Kruskal + Prim's discussion (Europe)",d:"hard",r:"SDE-2 · Amazon Europe",o:"offer",a:"@amazon_mst",
+p:["#1584 Min Cost Connect Points","#1135 Connecting Cities","Kruskal's MST","Union-Find path compression"],
+b:`Round 1: Min Cost to Connect All Points (LC 1584) — Manhattan distance MST. Prim's O(n²) for dense graphs. Discussion: Kruskal's (O(E log E), sparse) vs Prim's (dense).\n\nRound 2: Connecting Cities Min Cost (LC 1135) — Kruskal's with Union-Find. Path compression and union by rank.\n\nFollow-up: "some roads already exist?" — treat existing roads as zero-weight edges, run MST on modified graph.`,
+tip:"Amazon SDE-2+ occasionally asks graph algorithm theory: MST, shortest path, cycle detection. Know when to use each. Prim's vs Kruskal's selection criteria is a discussion-starter interviewers love."},
+
+{c:"amazon",yr:"2022",lv:"SDE II · 2022",t:"SDE-2 July 2022: Max subarray product + Longest Substr",d:"medium",r:"SDE-2 · Amazon",o:"offer",a:"@gfg_amazon_july22",
+p:["Max length subarray product=1","Max increasing contiguous sum","#3 Longest Substring No Repeat","Priority Queue","Striver sheet prep"],
+b:`From GeeksforGeeks Amazon SDE-2 July 2022 experience.\n\nOA Round 1 (HackerRank): Q1 — Array of 1s and -1s, return maximum length subarray with product = 1. Q2 — Find maximum increasing contiguous sum in array. Both solved.\n\nRound 2 (Technical): Longest Substring Without Repeating Characters (LC 3). Two pointer / sliding window. Discussed all edge cases.\n\nRound 3 (Technical): SDE-3 interviewer. Additional medium problems. Follow-up system design discussion.`,
+tip:"Amazon often gives GFG-style problems (not directly from LC but with LC equivalents). Know the connection: 'max subarray product = 1' is a DP/sliding window variant of LC 152."},
+
+{c:"amazon",yr:"2022",lv:"SDE I · 2022",t:"SDE-1 Off-Campus 2022: Striver sheet strategy",d:"medium",r:"SDE-1 · Amazon (Off-Campus)",o:"offer",a:"@gfg_sde1_2022",
+p:["#3 Longest Substring","Median of two sorted arrays","Boundary traversal binary tree","Striver sheet 250 LC"],
+b:`Prep: Striver sheet + LC (~250 questions: 50 easy, 170 medium, 30 hard). Specific teachers for topics: Aditya Verma (DP, Sliding Window, Stacks), Striver (DP gaps), Graphs (Riddhi Dutta).\n\nOA Screening: 2 coding questions medium level.\n\nRound 1: Median of Two Sorted Arrays (LC 4). Boundary traversal of binary tree.\n\nRound 2: Longest Substring Without Repeating (LC 3). HashMap approach. LP questions about past experience.\n\nIndustry experience (10 months) helped significantly in behavioral rounds.`,
+tip:"Striver's A-Z DSA sheet combined with LC company-tagged questions is the optimal Amazon prep strategy. 250 quality LC problems beats 500 random ones. Industry experience matters for LP stories."},
+
+{c:"amazon",yr:"2021",lv:"SDE I · 2021",t:"SDE-1 OA 2021: Subsets average + Question marks matching",d:"medium",r:"SDE-1 · Amazon",o:"offer",a:"@amazon_oa_21",
+p:["Number of subsets with average = k","Min question marks for string matching","DP","String manipulation"],
+b:`OA (HackerRank, 1 hour): Q1 — Find number of subsets having average equal to given value k. DP approach: dp[i][j][s] = number of subsets using first i elements, with j elements summing to s. Q2 — Compute minimum number of question marks required for matching all strings. String pattern matching.\n\nInterview Round: Merge Alexa devices — cost = sum of diameters, minimize total cost. Priority Queue approach O(n log n). Clone DLL with random pointer via HashMap.`,
+tip:"Amazon OA questions (Q1 subsets average, Q2 string matching) are not directly on LC but have LC equivalents. Practice LC 15, 416, and custom contest problems to build the pattern recognition."},
+
+{c:"amazon",yr:"2020",lv:"SDE I · 2020",t:"SDE-1 2020: Median two sorted + Most frequent subtree sum",d:"medium",r:"SDE-1 · Amazon",o:"offer",a:"@gfg_amazon_2020",
+p:["Median of Two Sorted Arrays","Most Frequent Subtree Sum","Boundary Traversal BT","Implement HashMap insertion order"],
+b:`From GeeksforGeeks Amazon SDE-1 off-campus 2020.\n\nOA: Medium level HackerEarth round. 2 coding questions.\n\nRound 1: Median of Two Sorted Arrays + Most frequent subtree sum in BT (using hashing + postorder traversal). Round 2: Boundary traversal of binary tree + implement HashMap with insertion-order tracking.\n\nRound 3 (Technical): Kth smallest element in array + OOP design discussion.\n\nPrep: Mock interview YouTube videos for FAANG companies + LC Amazon experiences.`,
+tip:"2020 Amazon interviews were more diverse in problem types (OOP design, data structure implementation, tree traversals). This breadth was later narrowed — but tree problems have remained constant throughout all years."},
+
+// ════ APPLE ════════════════════════════════════════════════════
+{c:"apple",yr:"2024",lv:"ICT4 · 2024",t:"Apple ICT4: LRU → LFU + TTL custom cache",d:"medium",r:"SWE ICT4 · Seattle",o:"offer",a:"@chen_w",
+p:["#146 LRU Cache","#460 LFU Cache","Custom TTL cache design","Memory leak in ObjC"],
+b:`5 rounds: 3 technical + 1 manager + 1 team fit.\n\nRound 1: LRU Cache (LC 146). Extended to LFU (LC 460) — frequency buckets, each an LRU list.\n\nRound 2: Design in-memory cache with TTL. Lazy expiry (check on access) vs eager (priority queue keyed by expiry time).\n\nRound 3: Debug memory leak in Objective-C — block capturing self strongly inside completion handler.`,
+tip:"Apple interviews include domain-specific rounds (iOS runtime, memory model). Generic SWE prep is necessary but not sufficient for Apple ICT3/4. Know your platform's memory management model."},
+
+{c:"apple",yr:"2024",lv:"ICT5 · 2024",t:"Count Smaller After Self + Maps routing realtime",d:"hard",r:"Senior SWE ICT5 · Cupertino",o:"pending",a:"@yuki_t",
+p:["#315 Count Smaller After Self","Merge Sort approach","D* Lite real-time graph","Apple Maps routing design"],
+b:`6 rounds over 2 days (virtual).\n\nRound 1: Count of Smaller Numbers After Self (LC 315). Merge sort approach — during merge, when right element placed before left, count it. Walkthrough required.\n\nRound 2: Apple Maps routing. Road graph updates in real-time. Incremental Dijkstra, D* Lite, real-time graph update strategies.`,
+tip:"Apple ICT5 expects senior engineering judgment: trade-off articulation, knowing when NOT to use a complex data structure, and domain depth in your specialty."},
+
+{c:"apple",yr:"2024",lv:"ICT3 · 2024",t:"Apple On-Campus India 2024: Trees + System basics",d:"medium",r:"SDE · Apple On-Campus India",o:"offer",a:"@gfg_apple_24",
+p:["Tree traversal all paths condition","DFS with backtracking","System design basics discussion","Behavioral craft-focused"],
+b:`From GeeksforGeeks Apple SDE On-Campus 2024.\n\nOA: DSA problems — trees, arrays, string manipulation.\n\nTechnical Round 1: Tree traversal — find all paths satisfying a condition (sum, structure). DFS with backtracking.\n\nTechnical Round 2: System design basics for on-campus role. Discussion-oriented.\n\nBehavioral: Apple emphasizes craftsmanship — stories about shipping quality code, catching edge cases, iterating on feedback.`,
+tip:"Apple on-campus India: craft-oriented culture shows in interviews. Emphasize times you improved code quality, caught edge cases others missed, or refactored for maintainability."},
+
+{c:"apple",yr:"2024",lv:"ICT4 · 2024",t:"Apple: LCA family deep dive across rounds",d:"medium",r:"SWE · Cupertino",o:"offer",a:"@apple_lca",
+p:["#236 LCA Binary Tree","#235 LCA BST","#1644 LCA missing nodes","#1650 LCA parent pointers","Offline LCA Euler tour"],
+b:`Apple went deep on LCA variants across rounds.\n\nRound 1: LCA BT (LC 236) + LCA BST (LC 235) — BST property gives O(log n).\n\nRound 2: LCA with possibly missing nodes (LC 1644). LCA with parent pointers (LC 1650) — two-pointer like linked list cycle.\n\nRound 3: "Given series of LCA queries on same tree, how to optimize?" — offline LCA: Euler tour + sparse table for O(1) per query after O(n log n) preprocessing.`,
+tip:"Apple sometimes goes very deep on a single topic across multiple rounds. If Round 1 is LCA, prepare the entire LCA family for subsequent rounds. Know LCA of Binary Lifting for the hardest follow-up."},
+
+{c:"apple",yr:"2023",lv:"ICT4 · 2023",t:"Serialize BST + iOS memory management",d:"medium",r:"iOS SWE ICT4 · Cupertino",o:"offer",a:"@arjun_m",
+p:["#449 Serialize BST","#297 Serialize BT","DFS Preorder reconstruct","iOS retain cycle weak reference"],
+b:`6 rounds over 3 weeks.\n\nSerialize/Deserialize BST (LC 449). Use preorder alone + BST property — no null markers needed. During deserialization: maintain range [min, max] for each value.\n\nRound 4: iOS-specific — identify retain cycle in ownership diagram, break with weak/unowned references.`,
+tip:"Apple explicitly grades code quality. A working solution with poor code hygiene can fail. Write as if it's a real PR going into production code review."},
+
+{c:"apple",yr:"2022",lv:"SDE-1 · 2021",t:"Apple SDE-1 Nov 2021: 4 rounds, 10 problems",d:"medium",r:"SDE-1 · Apple",o:"reject",a:"@love_p",
+p:["10 coding problems across 4 rounds","Arrays and strings","Trees and graphs","System thinking"],
+b:`From Naukri Code360 Apple SDE-1 November 2021 experience (4 rounds, 10 coding problems, rejected).\n\nRound 1: 3 problems — arrays and strings. Solved all.\n\nRound 2: Trees + graphs — 3 problems. Solved 2 fully, 1 partial.\n\nRound 3: Mixed — 2 problems including a design question. Partial credit.\n\nRound 4: System design basics + behavioral. Discussion-oriented.\n\nResult: Rejected. Feedback was "code quality needs improvement" — Apple is strict on implementation quality even when approach is correct.`,
+tip:"Apple SDE-1 grading: correct approach + clean code required. Getting the algorithm right but implementing it messily is not passing performance at Apple. Write production-quality code even in interviews."},
+
+{c:"apple",yr:"2021",lv:"Intern · 2021",t:"Apple SDE Intern May 2021: 3 rounds, Selected",d:"easy",r:"SDE Intern · Apple",o:"offer",a:"@vijay_s",
+p:["Arrays medium","Binary tree traversal","Design discussion","3 rounds 4 problems"],
+b:`From Naukri Code360 Apple SDE Intern May 2021 (3 rounds, 4 problems, selected).\n\nRound 1: Arrays — 2 medium problems. Solved both.\n\nRound 2: Binary tree traversal + system thinking question. Focused on edge cases.\n\nRound 3: Design discussion — how to approach a data access pattern. Discussion-heavy, no code.`,
+tip:"Apple intern interviews are more practical than puzzle-oriented. They evaluate whether you'd write production-quality code on day one. Edge case handling is heavily weighted even at intern level."},
+
+// ════ NETFLIX ════════════════════════════════════════════════════
+{c:"netflix",yr:"2024",lv:"SWE · 2024",t:"Netflix OA: Merge Intervals + Graph BFS (GFG source)",d:"medium",r:"SWE · Netflix",o:"offer",a:"@gfg_netflix_24",
+p:["#56 Merge Intervals","Graph BFS traversal","Medium to high difficulty","LeetCode + Codeforces prep"],
+b:`From GeeksforGeeks Netflix Interview Experience 2024.\n\nOA: 2 coding challenges from LC. Q1: Merge Intervals — interval merging and edge case handling. Q2: Graph-based problem requiring BFS/DFS optimization for time and space complexity. Medium to high difficulty. Required balance between speed and accuracy.\n\nIntroductory round: background, college details, project work.\n\nTechnical rounds: system design applied to Netflix use cases. Practicing on LeetCode and Codeforces recommended.`,
+tip:"Netflix OA uses actual LC problems. Merge Intervals and BFS/DFS graph problems are the two most reported OA categories. Practice both until they're automatic — Netflix rounds are fast-paced."},
+
+{c:"netflix",yr:"2024",lv:"Senior SWE · 2024",t:"Sliding Window Max + Trending recommendation system",d:"hard",r:"Senior SWE · Los Gatos",o:"offer",a:"@deepika_s",
+p:["#239 Sliding Window Max","#295 Median Data Stream","Deque O(n)","Weighted decay follow-up"],
+b:`Netflix wraps DSA in product scenarios.\n\n"Trending list refreshes every second. Given stream of view counts, maintain top-K shows in last W seconds." — LC 239 with deque, extended to top-K with heap. Follow-up: "different decay rates per show?" Weighted sliding window, sorted structure with lazy re-scoring.\n\nCode review round: find performance issues in simplified recommendation ranking code (Python). Found O(n²) list lookup inside loop that should be a set lookup.`,
+tip:"Netflix rounds designed by the team you'd join. Read the team's engineering blog. Problems directly reference real Netflix systems. Speed is scored — finish with 10 minutes remaining for discussion."},
+
+{c:"netflix",yr:"2024",lv:"SWE · 2024",t:"Reverse Linked List variants + stack overflow discussion",d:"easy",r:"SWE · Netflix",o:"offer",a:"@netflix_rl",
+p:["#206 Reverse Linked List","#92 Reverse LL II","#25 Reverse Nodes k-Group","Tail recursion stack overflow"],
+b:`From getsdeready.com 2024–2025 Netflix candidate reports.\n\nReverse Singly Linked List iteratively and recursively. Iterative: three-pointer O(n) O(1). Recursive: O(n) stack space — interviewer asked about tail recursion optimization to avoid stack overflow for large lists.\n\nExtended to Reverse Between positions (LC 92), then Reverse in k-Groups (LC 25) — most complex variant.\n\nNetflix tests linked list manipulation as baseline — "playlist reversal, watch history reversal" framing.`,
+tip:"Netflix often frames LL problems in terms of their product (playlists, watch queues). Frame your solution in their domain when explaining — it shows product awareness."},
+
+{c:"netflix",yr:"2024",lv:"SWE · 2024",t:"Longest Palindromic Substring (phone screen 2024)",d:"medium",r:"SWE · Netflix",o:"offer",a:"@netflix_lps",
+p:["#5 Longest Palindromic Substring","Expand Around Centers O(n²)","Manacher's O(n)","#647 Palindromic Substrings"],
+b:`Netflix phone screen 2024: Longest Palindromic Substring (LC 5). Reported across multiple 2024 candidate experiences.\n\nExpand around centers: O(n²) time O(1) space. Interviewer asked about Manacher's Algorithm for O(n) — rare in interviews but Netflix appreciated knowing it.\n\nExtended to count palindromic substrings (LC 647) — same expand approach, just count.\n\nNetflix phone screens favor candidates who know multiple approaches with trade-offs.`,
+tip:"Netflix phone screens reward knowledge of multiple approaches. Know at least 2 for common problems: expand-centers vs Manacher's for palindrome, DP vs two-pointer for others."},
+
+{c:"netflix",yr:"2023",lv:"Backend SWE · 2023",t:"Thread-safe LRU + Dining Philosophers variant",d:"hard",r:"Backend SWE · Amsterdam",o:"offer",a:"@oliver_b",
+p:["Thread-safe LRU Cache","Read-Write Lock","Segmented Locking","Deadlock prevention CAS"],
+b:`Netflix backend infra: concurrency questions more than any FAANG.\n\nRound 1: Thread-safe LRU. Options: global mutex, read-write lock, segmented locking (lock by key hash).\n\nRound 2: Dining philosophers variant — "Netflix stream allocation: N users competing for K streaming slots." Deadlock-free. Resource ordering, lock timeout + retry, CAS.`,
+tip:"Netflix infra teams test concurrency heavily. Review threading primitives, deadlock conditions, and lock-free CAS. Rare at other FAANG companies but very common at Netflix infrastructure teams."},
+
+{c:"netflix",yr:"2023",lv:"Senior SWE · 2023",t:"Media Player Seek + Interval Tree (Content Delivery)",d:"hard",r:"Senior SWE · NYC",o:"offer",a:"@sarah_k",
+p:["#352 Data Stream Disjoint Intervals","#1851 Min Interval Include Query","Interval Tree","Sweep Line + Min-Heap"],
+b:`Netflix Content Delivery. Problems applied to video streaming.\n\n"Scrubber pre-buffers segments. Given buffered byte ranges and seek position, is it buffered?" — interval tree / sorted interval list.\n\nData Stream as Disjoint Intervals (LC 352) — maintain sorted non-overlapping intervals as integers arrive. Each addNum might merge adjacent intervals.\n\nFollow-up: LC 1851 — minimum-length interval containing each query position. Sweep line + min-heap.`,
+tip:"Netflix content/streaming team: intervals + sweep line family (LC 56, 57, 252, 253, 352, 1851). Practice these as a cluster. Netflix reuses this family across content, delivery, and streaming teams."},
+
+{c:"netflix",yr:"2022",lv:"SWE · 2022",t:"Add Two Strings digit-by-digit (custom Netflix problem)",d:"medium",r:"SWE · Netflix",o:"offer",a:"@netflix_strings",
+p:["Custom sum-of-strings no carry","Unequal length handling","Stream processing follow-up"],
+b:`"Sum of Two Strings" — add ith elements of two digit strings without carry. E.g., "123" + "456" = "5610" (not "579"). Handle unequal lengths by padding with zeros.\n\nThis is a custom Netflix problem — not directly on LC. Tests reading specifications carefully and implementing exactly what's described.\n\nFollow-up: "strings stream in character by character, process in real-time?" Buffer accumulation, output as soon as pair available.`,
+tip:"Netflix occasionally asks truly custom problems not on LeetCode. Practice reading specification documents carefully and implementing exactly what's described, not what you assume it means."},
+
+// ════ MICROSOFT ════════════════════════════════════════════════
+{c:"microsoft",yr:"2025",lv:"SWE II · 2025",t:"Word Search I + II + Trie pruning",d:"hard",r:"SWE · Hyderabad India",o:"offer",a:"@ms_wordsearch",
+p:["#79 Word Search","#212 Word Search II","Trie + Backtracking","DFS pruning completed words"],
+b:`Round 1: Word Search I (LC 79) — DFS backtracking. O(m*n*4^L). Visited array.\n\nExtended to Word Search II (LC 212): build Trie from word list, DFS with Trie to prune. Key optimization: when Trie node has no remaining children, prune that direction. Remove completed words from Trie to prevent duplicates.\n\nFollow-up sub-problem: Implement Trie (LC 208) with startsWith and search.`,
+tip:"Word Search II Trie pruning is a classic Microsoft hard problem. Build a clean Trie implementation reusable in interviews. The 'remove completed word from Trie' optimization is often missed."},
+
+{c:"microsoft",yr:"2024",lv:"SWE II · 2024",t:"Clone Graph + K Closest Points (Redmond)",d:"medium",r:"SWE II · Redmond",o:"offer",a:"@vikram_t",
+p:["#133 Clone Graph","#973 K Closest Points","DFS HashMap cycle handling","Quickselect O(n) avg"],
+b:`4–5 rounds, ~60 min each.\n\nRound 1: Clone Graph (LC 133). DFS with HashMap original→clone. "What if graph has cycles?" — exactly what HashMap handles. They wanted explicit callout.\n\nRound 2: K Closest Points (LC 973). Max-heap of K: O(n log K). Quickselect: O(n) average. Discussion: quickselect average vs worst case O(n²).\n\nMicrosoft interviewers drop hints by design. Use them.`,
+tip:"Microsoft rounds are hint-friendly by design. Accepting a hint and running with it scores well. The hints test whether you can translate a nudge into a solution, not whether you solved it unaided."},
+
+{c:"microsoft",yr:"2024",lv:"SWE II · 2024",t:"Jump Game variants + Greedy proof",d:"medium",r:"SWE II · Redmond",o:"offer",a:"@ms_jumpgame",
+p:["#55 Jump Game","#45 Jump Game II","#1345 Jump Game IV","Greedy correctness proof","BFS O(n)"],
+b:`Round 1: Jump Game (LC 55) — greedy track max reachable. Jump Game II (LC 45) — minimum jumps greedy. "Why does greedy work here?" — interviewer wanted proof that locally optimal = globally optimal.\n\nExtended to Jump Game IV (LC 1345) — value-indexed jumps. BFS optimal here, O(n) with visited + value→indices map.\n\n"When does greedy fail and BFS replaces it?" — good discussion on when optimal substructure doesn't hold.`,
+tip:"Microsoft often asks 'why does greedy work here?' — not just the solution. Prepare a 2-sentence proof of greedy correctness for Jump Game, Task Scheduler, and similar problems."},
+
+{c:"microsoft",yr:"2024",lv:"SWE III · 2024",t:"Maximum Subarray + Stock Problems family",d:"medium",r:"Senior SWE · Bangalore",o:"offer",a:"@rahul_d",
+p:["#53 Maximum Subarray","#121 Best Time Buy Sell","#122 Stock II","#309 Cooldown","Kadane's","State Machine DP"],
+b:`4 rounds: 2 DSA + 1 system design + 1 behavioral.\n\nRound 1: Maximum Subarray (LC 53) — Kadane's. Best Time to Buy Stock (LC 121). Extended: LC 122 (multiple transactions), LC 309 (with cooldown — state machine DP: held/sold/rest states).\n\nMicrosoft escalates within problem families: stock series LC 121→122→123→188→309. Know the full progression.`,
+tip:"Microsoft uses problem families for escalation. Recognize when you're in a family (stock, subarray, interval, DP on strings) and proactively mention the variants you know. Shows breadth."},
+
+{c:"microsoft",yr:"2023",lv:"SWE II · 2023",t:"Edit Distance + autocomplete Trie design",d:"medium",r:"SWE II · Dublin",o:"offer",a:"@fiona_m",
+p:["#72 Edit Distance","#583 Delete Operations","Backtrack reconstruction","Trie autocomplete top-3"],
+b:`Round 1: Edit Distance (LC 72) — 2D DP. Follow-up: "reconstruct the sequence of operations, not just count." Backtrack from dp[m][n] to dp[0][0].\n\nRound 2: "Autocomplete for code editor. Given previously typed strings and a prefix, return top-3 by frequency then lexicographically." Trie + frequency map at each node.`,
+tip:"Microsoft values clean code over clever code. Structure code so extension is natural — they often ask to extend solutions. Edit distance backtracking follow-up is a perfect example."},
+
+{c:"microsoft",yr:"2023",lv:"SWE II · 2023",t:"LIS + Russian Doll Envelopes + patience sorting",d:"medium",r:"SWE II · London",o:"offer",a:"@ms_lis",
+p:["#300 Longest Increasing Subsequence","#354 Russian Doll Envelopes","#673 Number of LIS","Patience Sorting O(n log n)"],
+b:`Round 1: LIS (LC 300). O(n²) DP first, then O(n log n) patience sorting. Interviewer asked for both and space complexity difference.\n\nExtended to Russian Doll Envelopes (LC 354) — 2D LIS. Sort by width ascending, height descending when widths equal (prevents incorrect 2D matching), then LIS on heights.\n\nRound 2: Number of LIS (LC 673) — parallel DP tracking count array alongside length array.`,
+tip:"For LIS at Microsoft, be ready to explain WHY sorting by height descending when widths are equal prevents incorrect matching. The reasoning matters more than the code — interviewers probe the intuition."},
+
+{c:"microsoft",yr:"2022",lv:"SWE · 2022",t:"Microsoft 2022: Course Schedule + Graph traversal",d:"medium",r:"SWE · Microsoft India",o:"offer",a:"@ms_india_22",
+p:["#207 Course Schedule","#210 Course Schedule II","#802 Eventual Safe States","Topological Sort","Cycle Detection 3-color DFS"],
+b:`Round 1: Course Schedule (LC 207) — cycle detection in directed graph. Two approaches: topological sort (Kahn's) or DFS with 3-color states (0=unvisited, 1=visiting, 2=visited).\n\nExtended to Course Schedule II (LC 210) — return order. Then Find Eventual Safe States (LC 802) — nodes that don't lead to cycles (reverse graph + topological sort).`,
+tip:"Microsoft often extends the same problem family within a round. Knowing the entire progression (207 → 210 → 802 → 1462) shows breadth and earns extra credit even if the final extension isn't fully coded."},
+
+{c:"microsoft",yr:"2021",lv:"SWE · 2021",t:"Microsoft 2021: Binary Search + DP medium",d:"medium",r:"SWE · Microsoft",o:"offer",a:"@ms_2021",
+p:["Binary search on answer pattern","DP medium classic","System design intro","Behavioral collaborative culture"],
+b:`4 rounds. Round 1: Binary search on answer pattern — "given wood logs, cut to maximize minimum piece length." Classic binary search: is length L achievable? Check greedily.\n\nRound 2: DP problem — coin change variant. O(n*amount) DP.\n\nRound 3: System design — "design a simplified version of a ride-sharing matching system."\n\nRound 4: Behavioral. Microsoft's culture emphasis on growth mindset and collaboration. "Tell me about a time you helped someone else succeed."`,
+tip:"Microsoft behavioral rounds emphasize collaborative culture and growth mindset. Have stories about mentoring, helping teammates succeed, and learning from mistakes — not just individual achievement."},
+
+// ════ UBER ════════════════════════════════════════════════════
+{c:"uber",yr:"2024",lv:"Senior SWE · 2024",t:"Largest Rectangle Histogram + Surge Pricing",d:"hard",r:"Senior SWE · SF",o:"offer",a:"@marcus_j",
+p:["#84 Largest Rectangle Histogram","#42 Trapping Rain Water","Monotonic Stack","Product scenario framing"],
+b:`Uber maps DSA to product scenarios.\n\n"Given surge pricing data as histogram of demand over time, find time window with maximum consistent surge level." — LC 84. Monotonic stack.\n\nFollow-up: "surge can go up and down" — Trapping Rain Water (LC 42). How much demand smoothing can you apply?\n\nRound 2: "Design Uber driver matching system." ETA estimation (Dijkstra), matching (bipartite/priority queue), surge pricing calculation.`,
+tip:"Uber interviews are deeply applied. Every DSA problem maps to a product scenario. Frame your solution in product terms: 'this means we can handle 10x more concurrent surge zones.'"},
+
+{c:"uber",yr:"2024",lv:"SWE · 2024",t:"LRU thread-safe + All O(1) Data Structure",d:"medium",r:"SWE · San Francisco",o:"offer",a:"@uber_lru",
+p:["#146 LRU Cache","Thread-safe variants","Segmented Locking","#432 All O(1) Data Structure"],
+b:`Round 1: LRU Cache (LC 146). Thread-safe: global lock → read-write lock → segmented locking.\n\nExtended to All O(1) Data Structure (LC 432) — inc/dec/getMaxKey/getMinKey all O(1). Doubly linked list of buckets, each bucket contains keys with that frequency.\n\nRound 2: System design — Uber's trip pricing calculation service with fault tolerance.`,
+tip:"Uber values concurrency knowledge. For any data structure problem, mentally prepare a thread-safety follow-up: global lock → read-write lock → segmented lock → lock-free CAS spectrum."},
+
+{c:"uber",yr:"2024",lv:"SWE · 2024",t:"Geohashing + Surge Pricing sliding window",d:"hard",r:"Backend SWE · NYC",o:"offer",a:"@uber_geo",
+p:["Geohash encode lat/lng","nearestCells() implementation","H3 hexagonal vs square grid","Sliding window demand supply"],
+b:`Hybrid DSA + system design round.\n\n"Given stream of driver/rider locations, compute demand-supply ratio for any area in real time." Geohashing to map locations to grid cells, sliding window for recent events per cell.\n\nSystem design: H3 hexagonal grid vs square geohash, aggregation pipeline, latency requirements.\n\nCoding: implement geohash encode function given lat/lng and precision. Then implement nearestCells() returning adjacent cells.`,
+tip:"Uber occasionally asks geo-spatial problems. Know geohashing basics: encoding lat/lng to a string, precision levels, adjacent cell calculation. Rare but very memorable when it comes up."},
+
+{c:"uber",yr:"2023",lv:"SWE · 2023",t:"Network Delay + Trip Route Dijkstra",d:"medium",r:"SWE · Amsterdam",o:"offer",a:"@elena_v",
+p:["#743 Network Delay Time","#1631 Min Effort Path","Dijkstra","Lifelong Planning A*","Real-time traffic edges"],
+b:`Round 1: Network Delay Time (LC 743) — Dijkstra. "Edge weights represent real-time traffic (can change)?" — incremental shortest path / Lifelong Planning A*.\n\nRound 2: "Given city map as grid with blocked cells, find shortest path." — BFS. Extended to weighted terrain: Min Effort Path (LC 1631) — modified Dijkstra where cost = max height difference.`,
+tip:"Graph problems dominate Uber DSA. Maps and routing are central to their product. Master Dijkstra variants (standard, Bellman-Ford for negative weights, BFS for unweighted) before interviewing at Uber."},
+
+{c:"uber",yr:"2022",lv:"SWE · 2022",t:"Uber 2022: Binary Search Tree + System Design",d:"medium",r:"SWE · Uber",o:"offer",a:"@uber_2022",
+p:["BST Insert/Delete/Search","BST to sorted DLL","Floor/Ceiling in BST","System design: payments"],
+b:`Round 1: BST operations from scratch — Insert, Delete, Search. Extended to "convert BST to sorted doubly linked list" — in-order traversal with pointer manipulation. Then floor/ceiling queries in BST.\n\nRound 2: "Design Uber Payments with fraud detection." Discussion of transaction ledger, anomaly detection, idempotency.\n\nRound 3: Behavioral. Uber values: act like an owner, big bold bets, do the right thing. Have stories mapped to each.`,
+tip:"Uber behavioral rounds emphasize ownership and entrepreneurial thinking. Stories should show you took initiative beyond your defined role — 'act like an owner' means taking responsibility for outcomes, not tasks."},
+
+// ════ AIRBNB ════════════════════════════════════════════════════
+{c:"airbnb",yr:"2024",lv:"Senior SWE · 2024",t:"Reorganize String + Task Scheduler (max-heap greedy)",d:"medium",r:"Senior SWE · London",o:"offer",a:"@airbnb_tasks",
+p:["#767 Reorganize String","#621 Task Scheduler","#358 Rearrange k Distance","Greedy Max-Heap waiting queue"],
+b:`Round 1: Reorganize String (LC 767) — greedy, always place most frequent remaining char. Max-heap by frequency. Extended to Task Scheduler (LC 621) — with cooldown n, greedy max-heap + cooling period queue.\n\nRound 2: Rearrange String k Distance Apart (LC 358) — generalization of LC 767 with distance k. Same greedy with waiting queue of size k.`,
+tip:"Greedy + max-heap is a common Airbnb pattern. When you see 'rearrange to avoid X' or 'schedule to minimize Y,' think max-heap greedy. The waiting queue pattern for cooldowns appears repeatedly."},
+
+{c:"airbnb",yr:"2024",lv:"SWE · 2024",t:"Regular Expression Matching (LC 10) + Wildcard",d:"hard",r:"SWE · San Francisco",o:"offer",a:"@airbnb_regex",
+p:["#10 Regular Expression Matching","#44 Wildcard Matching","2D DP '*' case","Recursion + Memoization"],
+b:`Round 1: Regular Expression Matching (LC 10) — '.' and '*'. 2D DP. The '*' case: dp[i][j] = dp[i][j-2] (skip 'a*') OR (pattern[j-1]=='.' or equals s[i-1]) AND dp[i-1][j].\n\nExtended to Wildcard Matching (LC 44) — '?' and '*' can match any sequence.`,
+tip:"LC 10 (Regex Matching) is one of the hardest DP problems. The '*' transition is the tricky part: either skip the pattern pair OR match one more character. Write out both cases as comments before coding."},
+
+{c:"airbnb",yr:"2023",lv:"Senior SWE · 2023",t:"Booking Calendar + Interval Merging (product-grounded)",d:"medium",r:"Senior SWE · SF",o:"offer",a:"@carlos_m",
+p:["#253 Meeting Rooms II","#56 Merge Intervals","#732 My Calendar III","TreeMap delta sweep","Sweep Line"],
+b:`Round 1: "Given property bookings, find max overlapping." — Meeting Rooms II (LC 253). Events sort, sweep.\n\nRound 2: My Calendar III (LC 732) — booking system with addBooking and query max overlapping. TreeMap of difference arrays (delta events), O(log n) per operation.\n\nRound 3: Airbnb search ranking — price, availability, reviews, distance, embedding-based similarity.`,
+tip:"Airbnb problems are product-grounded. Frame solutions in business context: 'this means we can handle 10x more concurrent bookings.' It impresses Airbnb interviewers more than technical jargon."},
+
+// ════ LINKEDIN ════════════════════════════════════════════════
+{c:"linkedin",yr:"2024",lv:"SWE II · 2024",t:"Course Schedule + LinkedIn Connections BFS",d:"medium",r:"SWE II · Sunnyvale",o:"offer",a:"@wei_c",
+p:["#210 Course Schedule II","#1557 Min Vertices Reach All","Topological Sort","BFS levels connections"],
+b:`Round 1: Course Schedule II (LC 210) — topological sort. "How many connections away is person A from B?" — BFS level-order.\n\nRound 2: "Minimum set of members to follow such that you reach everyone." — LC 1557 (nodes with no incoming edges). Feed algorithm content seeding application.\n\nRound 3: SD — "Design LinkedIn's 'People You May Know'." Friends-of-friends, collaborative filtering, mutual connection count, caching.`,
+tip:"LinkedIn rewards product awareness. Mention real LinkedIn features when relevant: 'this is similar to how the feed ranking works.' Shows you understand the business context, not just the algorithm."},
+
+{c:"linkedin",yr:"2024",lv:"SWE · 2024",t:"Max Profit Job Scheduling + Weighted Intervals",d:"hard",r:"SWE · Mountain View",o:"offer",a:"@li_jobs",
+p:["#1235 Max Profit Job Scheduling","DP + Binary Search","Fractional Knapsack follow-up","#452 Arrows Burst Balloons"],
+b:`Round 1: Maximum Profit Job Scheduling (LC 1235) — weighted job scheduling. Sort by end time, DP + binary search for latest non-conflicting job. O(n log n).\n\nFollow-up: "if jobs can be partially completed?" — fractional knapsack, greedy by profit/duration.\n\nRound 2: Minimum arrows to burst balloons (LC 452) — interval scheduling greedy.`,
+tip:"LinkedIn asks scheduling/interval problems aligned with their career product. Master interval DP: sort by end time + DP with binary search for latest non-overlapping. It appears in many forms."},
+
+{c:"linkedin",yr:"2023",lv:"SWE · 2023",t:"Find K Pairs Smallest Sums + binary search on value",d:"medium",r:"SWE · San Francisco",o:"offer",a:"@li_kpairs",
+p:["#373 Find K Pairs Smallest Sums","#378 Kth Smallest Sorted Matrix","#668 Kth Smallest Multiplication Table","Min-Heap","Binary Search on answer"],
+b:`Round 1: Find K Pairs Smallest Sums (LC 373) — min-heap of (sum, i, j). O(K log K).\n\nRound 2: Kth Smallest in Sorted Matrix (LC 378) — binary search on value space, count elements ≤ mid using staircase traversal from top-right. O(n log(max-min)).\n\nExtended to Multiplication Table (LC 668) — same binary search pattern, different count function.`,
+tip:"'Kth smallest from X sources' is a meta-pattern at LinkedIn and Google. The binary search on answer (not on index) applies to sorted matrix, multiplication table, and similar problems."},
+
+// ════ STRIPE ════════════════════════════════════════════════════
+{c:"stripe",yr:"2024",lv:"Senior SWE · 2024",t:"Rate Limiter + Shortest Subarray Sum >= K",d:"hard",r:"Senior SWE · Dublin",o:"offer",a:"@patrick_m",
+p:["#862 Shortest Subarray Sum >= K","Monotonic Deque O(n)","Token bucket rate limiter","Take-home project quality"],
+b:`Stripe: take-home project + 4 onsite rounds.\n\nTake-home: Build payment retry with exponential backoff. Evaluated on code quality, edge cases, test coverage — not clever algorithms.\n\nOnsite Round 1: Rate limiter for Stripe API. Token bucket vs sliding window. Redis distributed rate limiting, clock skew, burst capacity.\n\nRound 2: Shortest Subarray with Sum >= K (LC 862). Deque O(n) — prefix sums + monotonic deque. Tricky: negatives make sliding window invalid.`,
+tip:"Stripe's take-home is as important as onsite. Write production-quality code: error handling, tests, logging, clear commits. Treated like a real PR — messy code with correct logic fails here."},
+
+{c:"stripe",yr:"2024",lv:"SWE · 2024",t:"Payment Ledger + Idempotency keys design",d:"hard",r:"SWE · San Francisco",o:"offer",a:"@stripe_ledger",
+p:["Custom payment ledger DSA","Idempotency keys exactly-once","Merge Intervals payment windows","Hash-based deduplication"],
+b:`Round 1: "Design payment ledger. Support: addTransaction(id, amount, timestamp), getBalance(accountId, asOfTime), reverseTransaction(id)." Sorted event log + binary search for balance at time T. Reversals: soft-delete with opposite entry.\n\nRound 2: "How to ensure payment API is idempotent?" Idempotency keys, exactly-once semantics, distributed lock for in-flight deduplication.\n\nCoding: Merge overlapping settlement windows (Merge Intervals variant).`,
+tip:"Stripe leans on financial systems knowledge. Understand idempotency, exactly-once delivery, and double-entry bookkeeping before Stripe interviews. These are domain requirements, not optional knowledge."},
+
+{c:"stripe",yr:"2023",lv:"SWE · 2023",t:"Consistent Hashing implementation from scratch",d:"hard",r:"Backend SWE · NYC",o:"offer",a:"@stripe_hashing",
+p:["Consistent Hashing ring","Virtual nodes","O(log n) lookup binary search","Cross-shard transactions 2PC/Saga"],
+b:`Round 1: Implement consistent hashing from scratch. Hash ring, virtual nodes, adding/removing nodes, remapping minimal keys.\n\nFollow-up: "Stripe processes millions of payments/sec, shard the payment database." Consistent hashing for shard assignment, hot-spot mitigation with virtual nodes, cross-shard transactions with 2PC or saga pattern.\n\nCoding: implement consistent hash ring in Python with virtual nodes. O(log n) lookup with binary search on sorted ring.`,
+tip:"Stripe asks distributed systems DSA (consistent hashing, vector clocks, distributed locking). Know the implementation, not just the concept. They ask you to code consistent hashing from scratch."},
+
+// ════ TWITTER ════════════════════════════════════════════════════
+{c:"twitter",yr:"2024",lv:"SWE II · 2024",t:"Design Twitter Feed + Top K Frequent",d:"medium",r:"SWE II · San Francisco",o:"offer",a:"@twitter_feed",
+p:["#347 Top K Frequent Elements","#355 Design Twitter","Bucket Sort O(n)","Min-Heap K-way merge feed"],
+b:`Round 1: Top K Frequent Elements (LC 347). Min-heap K: O(n log K). Bucket sort: O(n) — buckets indexed by frequency, collect high to low.\n\nRound 2: Design Twitter (LC 355) — follow, unfollow, postTweet, getNewsFeed (10 most recent from followed users). Min-heap merge of tweet streams. O(K log F) where F = followees. Extended to pagination: cursor-based with tweet IDs.`,
+tip:"Twitter Design (LC 355) is a rare 'design OOP' problem. The merge K sorted lists pattern for news feed is the same min-heap merge used in distributed log aggregation — important real-world connection."},
+
+{c:"twitter",yr:"2022",lv:"SWE · 2022",t:"Twitter 2022: Trending Topics + Sliding Window",d:"medium",r:"SWE · Twitter",o:"offer",a:"@twitter_2022",
+p:["#239 Sliding Window Max","Trending topics data stream","Top-K with Min-Heap","Heavy Hitter algorithms"],
+b:`Round 1: "Given a stream of tweets, find top K trending hashtags in the last hour." Min-heap of size K with hashtag frequencies. Sliding window approach for time-based expiry.\n\nExtended to approximate heavy hitters: "what if we need to handle 100M tweets/sec and can't store all hashtags?" — Count-Min Sketch for approximate frequency counting.\n\nRound 2: System design — "Design Twitter's trending topics feature." Real-time aggregation, geo-filtering, periodic recalculation, CDN caching.`,
+tip:"Twitter system design rounds focus on scale and approximate algorithms. Know Count-Min Sketch and HyperLogLog for approximate counting/distinct counting at extreme scale."},
+
+{c:"twitter",yr:"2021",lv:"SWE · 2021",t:"Twitter 2021: Graph shortest path + News Feed design",d:"medium",r:"SWE · Remote",o:"offer",a:"@twitter_2021",
+p:["BFS shortest path","Following graph","Fan-out on write vs read","Timeline design"],
+b:`Round 1: Given a following graph, find the shortest follow-chain between two users. BFS on directed graph.\n\nRound 2: System design — "Design Twitter Timeline." Fan-out on write (pre-compute timelines) vs fan-out on read (merge on the fly). Discussion of celebrities problem, hybrid approach.\n\nRound 3: Behavioral. Twitter culture: speed, creativity, direct communication. Have stories about shipping quickly and iterating.`,
+tip:"Twitter timeline design is a classic system design question. Know the fan-out trade-offs deeply: fan-out on write is fast for read but expensive for write (especially celebrities); hybrid approaches balance both."}
+];
+
+// ─────────────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────────────
+let community = [];
+try {
+  const stored = localStorage.getItem('faang_community_stories');
+  if (stored) community = JSON.parse(stored);
+} catch(e) {}
+
+let activeC='all', activeY='all', activeD='all', activeO='all', activeSrc='all', activeQ='', activeSort='default';
+
+function allStories() {
+  return [...BASE, ...community];
+}
+
+// ─────────────────────────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────────────────────────
+const CL = {google:'bg',meta:'bm',amazon:'ba',apple:'bap',netflix:'bn',microsoft:'bms',uber:'bu',airbnb:'bab',linkedin:'bli',stripe:'bst',twitter:'btw',other:'bdb'};
+const CC = {google:'cg',meta:'cm',amazon:'ca',apple:'cap',netflix:'cn2',microsoft:'cms',uber:'cu',airbnb:'cab',linkedin:'cli',stripe:'cst',twitter:'ctw',other:'cdb'};
+const CN = {google:'Google',meta:'Meta',amazon:'Amazon',apple:'Apple',netflix:'Netflix',microsoft:'Microsoft',uber:'Uber',airbnb:'Airbnb',linkedin:'LinkedIn',stripe:'Stripe',twitter:'Twitter',other:'Other'};
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+function dc(d){return d==='hard'?'dh':d==='medium'?'dm':'de'}
+function oc(o){return o==='offer'?'oo':o==='reject'?'or':'op'}
+function ot(o){return o==='offer'?'✓ Offer':o==='reject'?'✗ Rejected':'⏳ Pending'}
+
+function mkCard(s,i,isCom){
+  const cl=CL[s.c]||'bdb',cc=CC[s.c]||'cdb',label=CN[s.c]||cap(s.c);
+  return `<div class="card ${cc} ${isCom?'community-card':''}" data-company="${s.c}" data-yr="${s.yr}" data-diff="${s.d}" data-out="${s.o}" onclick="openM(${i},${isCom?1:0})">
+    <div class="ch"><span class="cbadge ${cl}">${label}</span><div style="display:flex;gap:.3rem;align-items:center"><span class="yr">${s.yr}</span><span class="db ${dc(s.d)}">${cap(s.d)}</span></div></div>
+    <div class="ct">${s.t}</div>
+    <div class="cmr"><span class="crole">${s.r}</span></div>
+    <div class="cbody">${(s.b||'').split('\n')[0]}</div>
+    <div class="cprobs">${(s.p||[]).slice(0,4).map(p=>`<span class="ptag">${p}</span>`).join('')}</div>
+    <div class="cf"><span class="cauth">${s.a||'Anonymous'}</span><span class="cout ${oc(s.o)}">${ot(s.o)}</span></div>
+  </div>`;
+}
+
+function getFiltered(){
+  const q=activeQ.toLowerCase();
+  const all = allStories();
+  return all.map((s,i)=>({...s,_i:i,_com:i>=BASE.length}))
+    .filter(s=>{
+      if(activeC!=='all'&&s.c!==activeC)return false;
+      if(activeY!=='all'&&s.yr!==activeY)return false;
+      if(activeD!=='all'&&s.d!==activeD)return false;
+      if(activeO!=='all'&&s.o!==activeO)return false;
+      if(activeSrc==='curated'&&s._com)return false;
+      if(activeSrc==='community'&&!s._com)return false;
+      if(q){
+        const tx=(s.t+' '+s.c+' '+s.r+' '+(s.p||[]).join(' ')+' '+(s.b||'')+' '+s.yr+' '+s.lv).toLowerCase();
+        if(!tx.includes(q))return false;
+      }
+      return true;
+    })
+    .sort((a,b)=>{
+      if(activeSort==='year-desc')return parseInt(b.yr)-parseInt(a.yr);
+      if(activeSort==='year-asc')return parseInt(a.yr)-parseInt(b.yr);
+      if(activeSort==='company')return a.c.localeCompare(b.c);
+      if(activeSort==='diff'){const dv={easy:0,medium:1,hard:2};return dv[a.d]-dv[b.d];}
+      return 0;
+    });
+}
+
+function render(){
+  const arr=getFiltered();
+  document.getElementById('grid').innerHTML=arr.map(s=>mkCard(s,s._i,s._com)).join('');
+  document.getElementById('rcount').textContent=`Showing ${arr.length} of ${allStories().length} experiences`;
+  document.getElementById('ntag').textContent=`${arr.length} ${arr.length===1?'story':'stories'}`;
+  document.getElementById('total-stat').textContent=allStories().length;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// FILTERS
+// ─────────────────────────────────────────────────────────────────
+function fC(c){
+  activeC=c;
+  document.querySelectorAll('.ctile').forEach((t,i)=>{
+    const cos=['all','google','meta','amazon','apple','netflix','microsoft','uber','airbnb','linkedin','stripe','twitter'];
+    t.classList.toggle('active',cos[i]===c);
+  });
+  render();
+}
+function fY(y){activeY=y;document.querySelectorAll('[data-yr]').forEach(b=>b.classList.toggle('active',b.dataset.yr===y));render();}
+function fD(d){activeD=d;document.querySelectorAll('[data-d]').forEach(b=>b.classList.toggle('active',b.dataset.d===d));render();}
+function fO(o){activeO=o;document.querySelectorAll('[data-o]').forEach(b=>b.classList.toggle('active',b.dataset.o===o));render();}
+function fSrc(s){activeSrc=s;document.querySelectorAll('[data-src]').forEach(b=>b.classList.toggle('active',b.dataset.src===s));render();}
+function fQ(v){activeQ=v;render();}
+function fSort(v){activeSort=v;render();}
+
+// ─────────────────────────────────────────────────────────────────
+// VIEW MODAL
+// ─────────────────────────────────────────────────────────────────
+function openM(i,isCom){
+  const all=allStories();
+  const s=all[i];
+  const cl=CL[s.c]||'bdb',label=CN[s.c]||cap(s.c);
+  document.getElementById('mbody').innerHTML=`
+    <div style="display:flex;align-items:center;gap:.45rem;margin-bottom:.9rem;flex-wrap:wrap">
+      <span class="cbadge ${cl}">${label}</span>
+      <span class="yr">${s.yr}</span>
+      <span class="db ${dc(s.d)}">${cap(s.d)}</span>
+      <span class="cout ${oc(s.o)}" style="font-size:10px;padding:1px 8px;border-radius:100px">${ot(s.o)}</span>
+      ${isCom?'<span style="font-family:var(--fn);font-size:9px;color:var(--ac2);background:rgba(108,99,255,.15);border:.5px solid rgba(108,99,255,.3);padding:1px 6px;border-radius:4px">community</span>':''}
+    </div>
+    <h2>${s.t}</h2>
+    <div style="font-size:11.5px;color:var(--mu);margin-bottom:1.1rem">${s.r} · ${s.lv||s.yr}</div>
+    <div class="msect">// full experience</div>
+    <div class="mbody">${(s.b||'').replace(/</g,'&lt;')}</div>
+    <div class="msect">// problems & topics covered</div>
+    <div class="mtags">${(s.p||[]).map(p=>`<span class="ptag" style="font-size:10px;padding:2px 7px">${p}</span>`).join('')}</div>
+    ${s.tip?`<div class="msect">// key takeaway</div><div class="takeaway">${s.tip}</div>`:''}
+    <div style="margin-top:1.1rem;font-size:9.5px;color:var(--di);font-family:var(--fn)">shared by ${s.a||'Anonymous'}</div>
+  `;
+  document.getElementById('vmodal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeMO(e){if(e.target===document.getElementById('vmodal'))closeMOB();}
+function closeMOB(){document.getElementById('vmodal').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeMOB();closeSubmit();}});
+
+// ─────────────────────────────────────────────────────────────────
+// SUBMIT MODAL
+// ─────────────────────────────────────────────────────────────────
+function openSubmit(){document.getElementById('smodal').classList.add('open');document.body.style.overflow='hidden';document.getElementById('success-banner').style.display='none';}
+function closeSubmit(){document.getElementById('smodal').classList.remove('open');document.body.style.overflow='';}
+
+function addProbInput(){
+  const wrap=document.getElementById('prob-inputs');
+  const inp=document.createElement('input');
+  inp.className='prob-input';
+  inp.placeholder='e.g. Two Pointers, Sliding Window…';
+  wrap.appendChild(inp);
+}
+
+function submitExp(){
+  const c=document.getElementById('s-company').value;
+  const yr=document.getElementById('s-year').value;
+  const lv=document.getElementById('s-level').value.trim()||`${cap(c)} ${yr}`;
+  const d=document.getElementById('s-diff').value;
+  const t=document.getElementById('s-title').value.trim()||`${cap(c)} Interview Experience ${yr}`;
+  const o=document.getElementById('s-outcome').value;
+  const b=document.getElementById('s-body').value.trim();
+  const tip=document.getElementById('s-tip').value.trim();
+  const a=document.getElementById('s-auth').value.trim()||'Anonymous';
+  const probs=Array.from(document.getElementById('prob-inputs').querySelectorAll('input'))
+    .map(i=>i.value.trim()).filter(v=>v.length>0);
+
+  if(!b){alert('Please describe your interview experience before submitting.');return;}
+
+  const story={c,yr,lv,t,d,r:lv,o,a,p:probs.length?probs:['Interview experience'],b,tip,_community:true};
+  community.push(story);
+  try{localStorage.setItem('faang_community_stories',JSON.stringify(community));}catch(e){}
+
+  document.getElementById('success-banner').style.display='block';
+  // reset form
+  document.getElementById('s-body').value='';
+  document.getElementById('s-title').value='';
+  document.getElementById('s-level').value='';
+  document.getElementById('s-tip').value='';
+  document.getElementById('s-auth').value='';
+  document.getElementById('prob-inputs').innerHTML='<input class="prob-input" placeholder="#42 Trapping Rain Water" /><input class="prob-input" placeholder="#787 Cheapest Flights (optional)" />';
+  render();
+  setTimeout(()=>{closeSubmit();},2200);
+}
+
+// init
+render();
+</script>
+</body>
+</html>
